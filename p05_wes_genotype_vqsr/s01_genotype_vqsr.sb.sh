@@ -1,12 +1,12 @@
 #!/bin/bash
 
-## s01_combine_gvcfs.sb.sh
-## Wes library: combine gvcfs
+## s01_genotype_vqsr.sb.sh
+## Wes library: genotype gvcfs
 ## SLURM submission script
-## Alexey Larionov, 23Aug2016
+## Alexey Larionov, 30Aug2016
 
 ## Name of the job:
-#SBATCH -J combine_gvcfs
+#SBATCH -J genotype_gvcfs
 
 ## How much wallclock time will be required?
 #SBATCH --time=00:30:00
@@ -37,6 +37,12 @@
 module purge                               # Removes all loaded modules
 module load default-impi                   # Loads the basic environment (later may be changed to a MedGen specific one)
 
+# Additional modules for knitr-rmarkdown (used for histograms)
+module load gcc/5.2.0
+module load boost/1.50.0
+module load texlive/2015
+module load pandoc/1.15.2.1
+
 ## Set initial working folder
 cd "${SLURM_SUBMIT_DIR}"
 
@@ -57,6 +63,6 @@ scripts_folder="${2}"
 log="${3}"
 
 ## Do the job
-"${scripts_folder}/s01_combine_gvcfs.sh" \
+"${scripts_folder}/s01_genotype_vqsr.sh" \
          "${job_file}" \
          "${scripts_folder}" &>> "${log}"

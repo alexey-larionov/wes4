@@ -40,7 +40,7 @@ Max time requested for moving results out of HPC (hrs.min.sec): 02.00.00
 #- hybridisation selection metrics (picard)
 #- Qualimap report
 #- Samstat report
-#- DiagnoseTargets and QualifyMissingIntervals (gatk)
+#- DiagnoseTargets and QualifyMissingIntervals (metrics from gatk - not yet implemented)
 #
 #Metrics include reports for each sample separately as well as summary 
 #tables and plots for all samples on the lane. 
@@ -55,15 +55,12 @@ Tools
 
 tools_folder: /scratch/medgen/tools
 
-java6: java/jre1.6.0_45/bin/java
-java7: java/jre1.7.0_76/bin/java
-java8: java/jre1.8.0_40/bin/java
+java: java/jre1.8.0_40/bin/java
 
 samtools: samtools/samtools-1.2/bin/samtools
 samtools_folder: samtools/samtools-1.2/bin
 
-picard: picard/picard-tools-1.133/picard.jar
-gatk: gatk/gatk-3.4-46/GenomeAnalysisTK.jar
+picard: picard/picard-2.6.0/picard.jar
 
 r_folder: r/R-3.2.0/bin
 

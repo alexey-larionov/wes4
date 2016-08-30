@@ -3,7 +3,7 @@
 # s01_copy_and_dispatch.sh
 # Wes library preprocess and gvcf
 # Copy source files and dispatch samples to nodes
-# Alexey Larionov, 23Aug2016
+# Alexey Larionov, 30Aug2016
 
 # Stop at any error
 set -e
@@ -32,6 +32,9 @@ echo "====================================================="
 echo ""
 
 # ================= Copy source dedupped bams to cluster ================= #
+
+# Suspend stopping at errors
+set +e
 
 # Progress report
 echo "Getting list of samples"
@@ -84,6 +87,9 @@ do
   echo "${sample}"
 
 done
+
+# Resume stopping at errors
+set -e
 
 # ================= Dispatch samples to nodes for processing ================= #
 

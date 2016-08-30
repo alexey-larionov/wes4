@@ -2,7 +2,7 @@
 
 # s02_preprocess_and_gvcf.sh
 # Bam preprocessing and making gvcf for a wes sample
-# Alexey Larionov, 23Aug2016
+# Alexey Larionov, 30Aug2016
 
 # Stop at any error
 set -e
@@ -55,7 +55,7 @@ idr_targets="${idr_folder}/${sample}_idr_targets.intervals"
 idr_targets_log="${idr_folder}/${sample}_idr_targets.log"
 
 # Process sample
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T RealignerTargetCreator \
 	-R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -87,7 +87,7 @@ idr_bam="${proc_bam_folder}/${sample}_idr.bam"
 idr_log="${idr_folder}/${sample}_idr.log"
 
 # Process sample
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T IndelRealigner \
 	-R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -127,7 +127,7 @@ idr_dedup_bam="${proc_bam_folder}/${sample}_idr_dedup.bam"
 idr_dedup_stats="${idr_folder}/${sample}_idr_dedup.txt"
 
 # Process sample
-"${java6}" -Xmx60g -jar "${picard}" MarkDuplicates \
+"${java}" -Xmx60g -jar "${picard}" MarkDuplicates \
   INPUT="${idr_bam}" \
   OUTPUT="${idr_dedup_bam}" \
   METRICS_FILE="${idr_dedup_stats}" \
@@ -163,7 +163,7 @@ bqr_table_before="${bqr_folder}/${sample}_bqr_before.table"
 bqr_table_before_log="${bqr_folder}/${sample}_bqr_table_before.log"
 
 # Process sample
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T BaseRecalibrator \
 	-R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -196,7 +196,7 @@ idr_bqr_bam="${proc_bam_folder}/${sample}_idr_bqr.bam"
 bqr_log="${bqr_folder}/${sample}_bqr.log"
 
 # Process sample
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T PrintReads \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -229,7 +229,7 @@ bqr_table_after="${bqr_folder}/${sample}_bqr_after.table"
 bqr_table_after_log="${bqr_folder}/${sample}_bqr_table_after.log"
 
 # Process sample
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T BaseRecalibrator \
 	-R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -266,7 +266,7 @@ bqr_plots_data="${bqr_folder}/${sample}_bqr_plots_data.csv"
 bqr_plots_log="${bqr_folder}/${sample}_bqr_plots.log"
 
 # Process sample
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T AnalyzeCovariates \
   -R "${ref_genome}" \
   -before "${bqr_table_before}" \
@@ -293,7 +293,7 @@ gvcf_log="${gvcf_folder}/${sample}_gvcf.log"
 gvcf_md5="${gvcf_folder}/${sample}_gvcf.md5"
 
 # Run HaplotypeCaller in GVCF mode
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T HaplotypeCaller \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \

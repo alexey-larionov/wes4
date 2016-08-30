@@ -1,10 +1,12 @@
 #!/bin/bash
-set -e
 
 # s01_copy_and_dispatch.sh
 # Wes lane alignment pipeline
 # Copy source files and dispatch samples to nodes
 # Alexey Larionov, 27Jul2016
+
+# Stop at any errors
+set -e
 
 # Read parameters
 job_file="${1}"
@@ -28,6 +30,9 @@ echo ""
 # Copy files
 mkdir -p "${source_fastq_folder}"
 
+# Suspend stopping at errors
+set +e
+
 rsync -thrve "ssh -x" "${source_server}:${source_folder}/" "${source_fastq_folder}/" 
 exit_code="${?}"
 
@@ -40,6 +45,9 @@ then
     echo ""
     exit
 fi
+
+# Restore stopping at errors
+set -e
 
 # Completion message to the job log
 echo ""
@@ -71,6 +79,9 @@ samples=$(awk '$1 != "sample" {print $1}' "${samples_file}")
 
 # Count samples and check that all source files exist for each sample
 samples_count=0
+
+# Suspend stopping at errors
+set +e
 
 # pe data
 if [ "${data_type}" == "pe" ]
@@ -154,6 +165,9 @@ else
   exit 1
 
 fi
+
+# Restore stopping at errors
+set -e
 
 # Progress report
 echo "Submitting samples:"

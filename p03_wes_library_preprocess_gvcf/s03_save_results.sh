@@ -2,7 +2,7 @@
 
 # s03_results.sh
 # Save results to NAS
-# Alexey Larionov, 23Aug2016
+# Alexey Larionov, 27Aug2016
 
 # Stop at any error
 set -e
@@ -20,12 +20,15 @@ echo "Saving procecced bams and qvcfs to NAS"
 echo "Started: $(date +%d%b%Y_%H:%M:%S)"
 echo ""
 
-source "${scripts_folder}/a02_read_config.sh"
+source "${scripts_folder}/a01_read_config.sh"
 echo "Read settings"
 echo ""
 
 # Get list of samples
 samples=$(awk 'NR>1 {print $1}' "${merged_folder}/samples.txt")
+
+# Suspend stopping at errors
+set +e
 
 # Copy processed bams and gvcfs
 rsync -thrve "ssh -x" "${processed_folder}" "${data_server}:${project_location}/${project}/${library}/"
@@ -44,6 +47,9 @@ then
   exit
 fi
 
+# Resume stopping at errors
+set -e
+
 # Progress messages
 echo ""
 echo "Completed saving results to NAS: $(date +%d%b%Y_%H:%M:%S)"
@@ -61,9 +67,11 @@ scp -qp "${logs_folder}/s03_save_results.log" "${data_server}:${project_location
 scp -qp "${pipeline_log}" "${data_server}:${project_location}/${project}/${library}/processed/f00_logs/a00_pipeline.log" 
 
 # Remove bulk results from cluster 
-rm -fr "${processed_folder}"
-rm -fr "${gvcf_folder}"
-rm -fr "${merged_folder}"
+rm -fr "${proc_bam_folder}"
+rm -fr "${gvcf_folder}/*.vcf"
+rm -fr "${gvcf_folder}/*.idx"
+rm -fr "${gvcf_folder}/*.md5"
+rm -fr "${dedup_bam_folder}"
 
 # Update logs on NAS
 ssh -x "${data_server}" "echo \"Removed bulk data from cluster\" >> ${project_location}/${project}/${library}/processed/f00_logs/s03_save_results.log"

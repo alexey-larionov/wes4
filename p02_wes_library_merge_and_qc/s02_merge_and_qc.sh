@@ -110,7 +110,7 @@ mkdup_bam="${bam_folder}/${sample}_mkdup.bam"
 mkdup_stats="${picard_mkdup_folder}/${sample}_mkdup.txt"
   
 # Process sample
-"${java6}" -Xmx60g -jar "${picard}" MarkDuplicates \
+"${java}" -Xmx60g -jar "${picard}" MarkDuplicates \
   INPUT="${sort_bam}" \
   OUTPUT="${mkdup_bam}" \
   METRICS_FILE="${mkdup_stats}" \
@@ -181,7 +181,7 @@ echo "Started building dedupped bam index"
 dedup_bai="${bam_folder}/${sample}_dedup.bai"
 
 # make index
-"${java6}" -Xmx60g -jar "${picard}" BuildBamIndex \
+"${java}" -Xmx60g -jar "${picard}" BuildBamIndex \
   INPUT="${dedup_bam}" \
   OUTPUT="${dedup_bai}" \
   VERBOSITY=ERROR \
@@ -225,7 +225,7 @@ inserts_stats="${picard_inserts_folder}/${sample}_insert_sizes.txt"
 inserts_plot="${picard_inserts_folder}/${sample}_insert_sizes.pdf"
 
 # Process sample
-"${java6}" -Xmx20g -jar "${picard}" CollectInsertSizeMetrics \
+"${java}" -Xmx20g -jar "${picard}" CollectInsertSizeMetrics \
   INPUT="${dedup_bam}" \
   OUTPUT="${inserts_stats}" \
   HISTOGRAM_FILE="${inserts_plot}" \
@@ -246,7 +246,7 @@ echo "Started collecting alignment summary metrics"
 alignment_metrics="${picard_alignment_folder}/${sample}_as_metrics.txt"
 
 # Process sample (using default adapters list)
-"${java6}" -Xmx20g -jar "${picard}" CollectAlignmentSummaryMetrics \
+"${java}" -Xmx20g -jar "${picard}" CollectAlignmentSummaryMetrics \
   INPUT="${dedup_bam}" \
   OUTPUT="${alignment_metrics}" \
   REFERENCE_SEQUENCE="${ref_genome}" \
@@ -265,7 +265,7 @@ hs_metrics="${picard_hybridisation_folder}/${sample}_hs_metrics.txt"
 hs_coverage="${picard_hybridisation_folder}/${sample}_hs_coverage.txt"
 
 # Process sample (using b37 interval lists)
-"${java6}" -Xmx20g -jar "${picard}" CalculateHsMetrics \
+"${java}" -Xmx20g -jar "${picard}" CalculateHsMetrics \
   BAIT_SET_NAME="${bait_set_name}" \
   BAIT_INTERVALS="${probes_intervals}" \
   TARGET_INTERVALS="${targets_intervals}" \

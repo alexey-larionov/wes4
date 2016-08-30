@@ -1,9 +1,11 @@
 #!/bin/bash
-set -e
 
 # s02_align_and_qc_se.sh
 # Wes sample alignment and QC
 # Alexey Larionov, 01aug2016
+
+# Stop at any errors
+set -e
 
 # Read parameters
 sample="${1}"

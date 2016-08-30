@@ -45,16 +45,13 @@ scripts_folder=$(get_parameter "scripts_folder") # e.g. /scratch/medgen/scripts/
 
 tools_folder=$(get_parameter "tools_folder") # e.g. /scratch/medgen/tools
 
-java6=$(get_parameter "java6") # e.g. java/jre1.6.0_45/bin/java
-java6="${tools_folder}/${java6}"
+java=$(get_parameter "java") # e.g. java/jre1.8.0_40/bin/java
+java="${tools_folder}/${java}"
 
-java7=$(get_parameter "java7") # e.g. java/jre1.7.0_76/bin/java
-java7="${tools_folder}/${java7}"
-
-picard=$(get_parameter "picard") # e.g. picard/picard-tools-1.133/picard.jar
+picard=$(get_parameter "picard") # e.g. picard/picard-2.6.0/picard.jar
 picard="${tools_folder}/${picard}"
 
-gatk=$(get_parameter "gatk") # e.g. gatk/gatk-3.4-46/GenomeAnalysisTK.jar
+gatk=$(get_parameter "gatk") # e.g. gatk/gatk-3.6-0/GenomeAnalysisTK.jar
 gatk="${tools_folder}/${gatk}"
 
 r_folder=$(get_parameter "r_folder") # e.g. r/R-3.2.0/bin

@@ -1,23 +1,23 @@
 Job description file for combining gvcfs
-Alexey Larionov, 23Aug2016
+Alexey Larionov, 30Aug2016
 
 TEMPLATE v1
 
 =========== Data location and analysis settings =============
 
 Data server: admin@mgqnap.medschl.cam.ac.uk
-Project location: /share/alexey
+Project location: /share/eleanor/gastric_Aug16
 
-project: project1
-libraries: library1 library2 library3 library4
-set_id: set1
+project: gastric
+libraries: IGP_L1
+set_id: IGP_L1
 
 ======================= HPC settings ========================
 
-working_folder: /scratch/medgen/users/alexey
+working_folder: /scratch/medgen/users/eleanor/Pipeline_working_directory/gastric_Aug16
 
 Account to use on HPC: TISCHKOWITZ-SL2
-Max time to request (hrs.min.sec): 24.00.00
+Max time to request (hrs.min.sec): 6.00.00
 
 ==================== Pipeline summary =======================
 
@@ -34,8 +34,8 @@ Tools
 -----
 
 tools_folder: /scratch/medgen/tools
-java7: java/jre1.7.0_76/bin/java
-gatk: gatk/gatk-3.4-46/GenomeAnalysisTK.jar
+java: java/jre1.8.0_40/bin/java
+gatk: gatk/gatk-3.6-0/GenomeAnalysisTK.jar
 
 Resources
 ---------

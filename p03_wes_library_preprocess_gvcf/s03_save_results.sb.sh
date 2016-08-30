@@ -3,7 +3,7 @@
 ## s03_save_results.sb.sh
 ## Save results to NAS
 ## SLURM submission script
-## Alexey Larionov, 23Aug2016
+## Alexey Larionov, 27Aug2016
 
 ## Name of the job:
 #SBATCH -J save_results
@@ -26,6 +26,9 @@
 
 ## Partition (do not change)
 #SBATCH -p sandybridge
+
+## Jump the queue (use for debugging only!)
+##SBATCH --qos=INTR
 
 ## Modules section (required, do not remove)
 ## Can be modified to set the environment seen by the application

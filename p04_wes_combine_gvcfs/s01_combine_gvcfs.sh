@@ -2,7 +2,7 @@
 
 # s01_combine_gvcfs.sh
 # Combine gvcfs
-# Alexey Larionov, 23Aug2016
+# Alexey Larionov, 30Aug2016
 
 # Stop at any error
 set -e
@@ -16,7 +16,7 @@ echo "Started s01_combine_gvcfs: $(date +%d%b%Y_%H:%M:%S)"
 echo ""
 
 # Set parameters
-source "${scripts_folder}/a02_read_config.sh"
+source "${scripts_folder}/a01_read_config.sh"
 echo "Read settings"
 echo ""
 
@@ -34,6 +34,9 @@ echo ""
 source_gvcfs="${set_id}.list"
 > "${source_gvcfs}"
 
+# Suspend stopping at errors
+set +e
+
 # For each library
 for library in ${libraries}
 do
@@ -41,7 +44,7 @@ do
   # Progress report
   echo "${library}"
   echo "Getting list of samples"
-
+  
   # Copy samples file
   rsync -thrqe "ssh -x" "${data_server}:${project_location}/${project}/${library}/gvcfs/samples.txt" "${combined_gvcfs_folder}/${set_id}_source_files/${library}_samples.txt" 
   exit_code="${?}"
@@ -97,6 +100,9 @@ do
   
 done # next library
 
+# Restore stopping at errors
+set -e
+
 # Progress report
 echo "Completed copying source data: $(date +%d%b%Y_%H:%M:%S)"
 echo ""
@@ -112,7 +118,7 @@ combining_gvcf_log="${set_id}_combine_gvcfs.log"
 combined_gvcf_md5="${combined_gvcf}.md5"
 
 # Process files  
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T CombineGVCFs \
 	-R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -152,8 +158,11 @@ echo ""
 echo "Started copying results to NAS: $(date +%d%b%Y_%H:%M:%S)"
 echo ""
 
+# Suspend stopping at errors
+set +e
+
 # Copy results
-ssh "${data_server}" "mkdir -p ${project_location}/${project}/combined_gvcfs"
+ssh -x "${data_server}" "mkdir -p ${project_location}/${project}/combined_gvcfs"
 
 rsync -thrqe "ssh -x" "${combined_gvcf}" "${data_server}:${project_location}/${project}/combined_gvcfs/"
 exit_code_1="${?}"
@@ -165,10 +174,8 @@ rsync -thrqe "ssh -x" "${combining_gvcf_log}" "${data_server}:${project_location
 exit_code_4="${?}"
 rsync -thrqe "ssh -x" "${source_gvcfs}" "${data_server}:${project_location}/${project}/combined_gvcfs/"
 exit_code_5="${?}"
-rsync -thrqe "ssh -x" "${set_id}_combine_gvcfs.res" "${data_server}:${project_location}/${project}/combined_gvcfs/"
-exit_code_6="${?}"
 rsync -thrqe "ssh -x" "${set_id}.log" "${data_server}:${project_location}/${project}/combined_gvcfs/"
-exit_code_7="${?}"
+exit_code_6="${?}"
 
 # Stop if copying failed
 if [ "${exit_code_1}" != "0" ] || \
@@ -176,8 +183,7 @@ if [ "${exit_code_1}" != "0" ] || \
    [ "${exit_code_3}" != "0" ] || \
    [ "${exit_code_4}" != "0" ] || \
    [ "${exit_code_5}" != "0" ] || \
-   [ "${exit_code_6}" != "0" ] || \
-   [ "${exit_code_7}" != "0" ]
+   [ "${exit_code_6}" != "0" ]
 then
   echo ""
   echo "Failed copying results to NAS"
@@ -185,6 +191,9 @@ then
   echo ""
   exit
 fi
+
+# Restore stopping at errors
+set -e
 
 # Progress report to log on nas
 timestamp="$(date +%d%b%Y_%H:%M:%S)"
@@ -198,7 +207,7 @@ rm -f "${combined_gvcf}"
 rm -f "${combined_gvcf}.idx"
 rm -f "${combined_gvcf_md5}"
 #rm -f "${combining_gvcf_log}"
-rm -f "${source_gvcfs}"
+#rm -f "${source_gvcfs}"
 #rm -f "${set_id}.log"
 
 # Progress report to log on nas

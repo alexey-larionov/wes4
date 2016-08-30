@@ -561,6 +561,9 @@ done
 
 # ------- Save results to NAS ------- #
 
+# Suspend stopping at errors
+set +e
+
 # Progress report
 echo "Started saving results to NAS"
 
@@ -577,6 +580,9 @@ then
   echo ""
   exit
 fi
+
+# Restore stopping at errors
+set -e
 
 # Progress messages
 echo ""

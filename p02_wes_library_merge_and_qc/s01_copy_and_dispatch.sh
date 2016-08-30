@@ -56,6 +56,9 @@ echo ""
 echo "Getting lists of samples"
 echo ""
 
+# Suspend stopping at errors
+set +e
+
 # Copy samples lists for all lanes
 for lane in ${lanes}
 do
@@ -161,6 +164,9 @@ do
   echo ""
   
 done
+
+# Restore stopping at errors
+set -e
 
 # ================= Dispatch samples to nodes for processing ================= #
 

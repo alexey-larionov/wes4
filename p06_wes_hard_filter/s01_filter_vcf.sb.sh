@@ -1,12 +1,12 @@
 #!/bin/bash
 
-## s01_combine_gvcfs.sb.sh
-## Wes library: combine gvcfs
+## s01_filter_vcf.sb.sh
+## Wes library: filtering vcf by DP, QUAL and VQSLOD
 ## SLURM submission script
-## Alexey Larionov, 23Aug2016
+## Alexey Larionov, 25Aug2016
 
 ## Name of the job:
-#SBATCH -J combine_gvcfs
+#SBATCH -J filter_vcf
 
 ## How much wallclock time will be required?
 #SBATCH --time=00:30:00
@@ -27,15 +27,18 @@
 ## Partition (do not change)
 #SBATCH -p sandybridge
 
-## Jump the queue (use for debugging only!)
-##SBATCH --qos=INTR
-
 ## Modules section (required, do not remove)
 ## Can be modified to set the environment seen by the application
 ## (note that SLURM reproduces the environment at submission irrespective of ~/.bashrc):
 . /etc/profile.d/modules.sh                # Enables the module command
 module purge                               # Removes all loaded modules
 module load default-impi                   # Loads the basic environment (later may be changed to a MedGen specific one)
+
+# Additional modules for knitr-rmarkdown (used for histograms)
+module load gcc/5.2.0
+module load boost/1.50.0
+module load texlive/2015
+module load pandoc/1.15.2.1
 
 ## Set initial working folder
 cd "${SLURM_SUBMIT_DIR}"
@@ -57,6 +60,6 @@ scripts_folder="${2}"
 log="${3}"
 
 ## Do the job
-"${scripts_folder}/s01_combine_gvcfs.sh" \
+"${scripts_folder}/s01_filter_vcf.sh" \
          "${job_file}" \
          "${scripts_folder}" &>> "${log}"

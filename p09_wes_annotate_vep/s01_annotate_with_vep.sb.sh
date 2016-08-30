@@ -1,12 +1,12 @@
 #!/bin/bash
 
-## s01_combine_gvcfs.sb.sh
-## Wes library: combine gvcfs
+## s01_annotate_with_vep.sb.sh
+## Wes library: annotating filtered vcfs with vep
 ## SLURM submission script
-## Alexey Larionov, 23Aug2016
+## Alexey Larionov, 25Aug2016
 
 ## Name of the job:
-#SBATCH -J combine_gvcfs
+#SBATCH -J annotate_with_vep
 
 ## How much wallclock time will be required?
 #SBATCH --time=00:30:00
@@ -26,9 +26,6 @@
 
 ## Partition (do not change)
 #SBATCH -p sandybridge
-
-## Jump the queue (use for debugging only!)
-##SBATCH --qos=INTR
 
 ## Modules section (required, do not remove)
 ## Can be modified to set the environment seen by the application
@@ -57,6 +54,6 @@ scripts_folder="${2}"
 log="${3}"
 
 ## Do the job
-"${scripts_folder}/s01_combine_gvcfs.sh" \
+"${scripts_folder}/s01_annotate_with_vep.sh" \
          "${job_file}" \
          "${scripts_folder}" &>> "${log}"

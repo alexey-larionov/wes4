@@ -1,5 +1,5 @@
 Job description file for bams preprocessing and making gvcfs for a wes library
-Alexey Larionov, 23Aug2016
+Alexey Larionov, 30Aug2016
 
 TEMPLATE v1
 
@@ -43,11 +43,10 @@ Tools
 
 tools_folder: /scratch/medgen/tools
 
-java6: java/jre1.6.0_45/bin/java
-java7: java/jre1.7.0_76/bin/java
+java: java/jre1.8.0_40/bin/java
 
-picard: picard/picard-tools-1.133/picard.jar
-gatk: gatk/gatk-3.4-46/GenomeAnalysisTK.jar
+picard: picard/picard-2.6.0/picard.jar
+gatk: gatk/gatk-3.6-0/GenomeAnalysisTK.jar
 
 r_folder: r/R-3.2.0/bin
 

@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 # s03_summarise_and_save.sh
 # Plot summary metrics and save results of wes lane alignment and QC
@@ -9,6 +8,9 @@ set -e
 # Tested with gnuplot 5.0 (may not work with old gnuplot versions)
 # Requires ssh connection to be established with -X option
 # Requires LiberationSans-Regular.ttf font (included in tools/config)
+
+# Stop at any errors
+set -e
 
 # Read parameters
 job_file="${1}"
@@ -548,6 +550,9 @@ echo "" >> "${pipeline_log}"
 # Progress report
 echo "Started saving results to NAS"
 
+# Suspend stopping at errors
+set +e
+
 # Prepare environment for rsync
 ssh -x "${results_server}" "mkdir -p ${results_folder}/${project}/${library}"
 
@@ -564,6 +569,9 @@ then
   echo ""
   exit
 fi
+
+# Restore stopping at errors
+set -e
 
 # Progress messages
 echo ""

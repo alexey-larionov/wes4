@@ -2,7 +2,7 @@
 
 # a02_report_settings.sh
 # Report settings for wes library merge pipeline
-# Alexey Larionov, 23Aug2016
+# Alexey Larionov, 30Aug2016
 
 pipeline_info=$(grep "^#" "${job_file}")
 pipeline_info=${pipeline_info//"#"/}
@@ -46,15 +46,12 @@ echo "-----"
 echo ""
 echo "tools_folder: ${tools_folder}"
 echo ""
-echo "java6: ${java6}"
-echo "java7: ${java7}"
-echo "java8: ${java8}"
+echo "java: ${java}"
 echo ""   
 echo "samtools: ${samtools}"
 echo "samtools_folder: ${samtools_folder}"
 echo ""
 echo "picard: ${picard}"
-echo "gatk: ${gatk}"
 echo ""
 echo "r_folder: ${r_folder}"
 echo ""

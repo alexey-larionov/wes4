@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # a02_report_config.sh
-# Reporting settings for combining gvcfs
-# Alexey Larionov, 30Aug2016
+# Reporting settings for data export
+# Alexey Larionov, 25Aug2016
 
 pipeline_info=$(grep "^#" "${job_file}")
 pipeline_info=${pipeline_info//"#"/}
@@ -17,8 +17,7 @@ echo "data_server: ${data_server}"
 echo "project_location: ${project_location}"
 echo ""
 echo "project: ${project}"
-echo "libraries: ${libraries}"
-echo "set_id: ${set_id}"
+echo "dataset: ${dataset}"
 echo ""
 echo "------------------- HPC settings ---------------------"
 echo ""
@@ -35,9 +34,13 @@ echo "Tools"
 echo "-----"
 echo ""
 echo "tools_folder: ${tools_folder}"
-echo "java: ${java}"
+echo ""
+echo "java7: ${java7}"
 echo "gatk: ${gatk}"
 echo ""
+echo "r_bin_folder: ${r_bin_folder}"
+echo "r_lib_folder: ${r_lib_folder}"
+echo "" 
 echo "Resources" 
 echo "---------"
 echo ""
@@ -53,5 +56,12 @@ echo "Working sub-folders on HPC"
 echo "--------------------------"
 echo ""
 echo "project_folder: ${project_folder}"
-echo "combined_gvcfs_folder: ${combined_gvcfs_folder}"
+echo "export_folder: ${export_folder}"
+echo "logs_folder: ${logs_folder}"
+echo "tmp_folder: ${tmp_folder}"
 echo "" 
+echo "Additional settings"
+echo "--------------------------"
+echo ""
+echo "vep_fields: ${vep_fields}"
+echo ""

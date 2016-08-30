@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # a01_read_config.sh
-# Parse congig file for combining gvcfs
-# Alexey Larionov, 30Aug2016
+# Parse config file for data export
+# Alexey Larionov, 25Aug2016
 
 # Function for reading parameters
 function get_parameter()
@@ -19,8 +19,7 @@ data_server=$(get_parameter "Data server") # e.g. admin@mgqnap.medschl.cam.ac.uk
 project_location=$(get_parameter "Project location") # e.g. /share/alexey
 
 project=$(get_parameter "project") # e.g. project1
-libraries=$(get_parameter "libraries") # e.g. library1 library2 library3 library4
-set_id=$(get_parameter "set_id") # e.g. set1
+dataset=$(get_parameter "vep annotated dataset") # e.g. variantset1_filter1
 
 # =============== HPC settings ============== #
 
@@ -32,17 +31,23 @@ time_to_request=${time_to_request//./:} # substitute dots to colons
 
 # ============ Standard settings ============ #
 
-scripts_folder=$(get_parameter "scripts_folder") # e.g. /scratch/medgen/scripts/p04_wecare_combine_gvcfs
+scripts_folder=$(get_parameter "scripts_folder") # e.g. /scratch/medgen/scripts/p06_wes_filter
 
 # ----------- Tools ---------- #
 
 tools_folder=$(get_parameter "tools_folder") # e.g. /scratch/medgen/tools
 
-java=$(get_parameter "java") # e.g. java/jre1.8.0_40/bin/java
-java="${tools_folder}/${java}"
+java7=$(get_parameter "java7") # e.g. java/jre1.7.0_76/bin/java
+java7="${tools_folder}/${java7}"
 
-gatk=$(get_parameter "gatk") # e.g. gatk/gatk-3.6-0/GenomeAnalysisTK.jar
+gatk=$(get_parameter "gatk") # e.g. gatk/gatk-3.4-46/GenomeAnalysisTK.jar
 gatk="${tools_folder}/${gatk}"
+
+r_bin_folder=$(get_parameter "r_bin_folder") # e.g. r/R-3.2.2/bin/
+r_bin_folder="${tools_folder}/${r_bin_folder}"
+
+r_lib_folder=$(get_parameter "r_lib_folder") # e.g. r/R-3.2.2/lib64/R/library
+r_lib_folder="${tools_folder}/${r_lib_folder}"
 
 # ----------- Resources ---------- #
 
@@ -62,7 +67,14 @@ targets_intervals="${targets_folder}/${targets_intervals}"
 
 # ----------- Working sub-folders ---------- #
 
-project_folder="${working_folder}/${project}" # e.g. project1
+project_folder="${working_folder}/${project}"
 
-combined_gvcfs_folder=$(get_parameter "combined_gvcfs_folder") # e.g. combined_gvcfs
-combined_gvcfs_folder="${project_folder}/${combined_gvcfs_folder}"
+export_folder="${dataset}_txt"
+export_folder="${project_folder}/${export_folder}"
+
+tmp_folder="${export_folder}/tmp"
+logs_folder="${export_folder}/logs"
+
+# ----------- Additional parameters ---------- #
+
+vep_fields=$(get_parameter "VEP fields") # e.g. SYMBOL|Allele|...|STRAND|SYMBOL_SOURCE
