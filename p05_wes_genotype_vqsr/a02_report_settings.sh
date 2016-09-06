@@ -78,12 +78,6 @@ echo "targets_intervals: ${targets_intervals}"
 #targets bed is not used yet in this version of the pipeline: 
 #it could be used later to focus vcfstats on the targets
 echo ""
-echo "ph3_1k_folder: ${ph3_1k_folder}"
-echo "ph3_1k_split_vcf: ${ph3_1k_split_vcf}"
-echo ""
-echo "exac_folder: ${exac_folder}"
-echo "exac_non_tcga_split_vcf: ${exac_non_tcga_split_vcf}"
-echo ""
 echo "Working folders"
 echo "---------------"
 echo ""

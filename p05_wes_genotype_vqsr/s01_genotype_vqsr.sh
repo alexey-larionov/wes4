@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# s01_genotype_gvcfs.sh
+# s01_genotype_vqsr.sh
 # Genotype gvcfs, add locations IDs, VQSR annotations and multiallelic flag; calculate stats for raw VCFs
-# Alexey Larionov, 30Aug2016
+# Alexey Larionov, 01Sep2016
 
 # Stop at any error
 set -e
@@ -12,7 +12,7 @@ job_file="${1}"
 scripts_folder="${2}"
 
 # Update pipeline log
-echo "Started s01_genotype_gvcfs: $(date +%d%b%Y_%H:%M:%S)"
+echo "Started s01_genotype_vqsr: $(date +%d%b%Y_%H:%M:%S)"
 echo ""
 
 # Set parameters
@@ -325,8 +325,8 @@ echo ""
 echo "Started applying vqsr indel model"
 
 # File names
-out_vcf="${raw_vcf_folder}/${dataset}_raw.vcf"
-out_vcf_md5="${raw_vcf_folder}/${dataset}_raw.md5"
+out_vcf="${raw_vcf_folder}/${dataset}_vqsr.vcf"
+out_vcf_md5="${raw_vcf_folder}/${dataset}_vqsr.md5"
 log_apply_indel="${logs_folder}/${dataset}_indel_apply.log"
 
 # Apply vqsr indel model
@@ -464,10 +464,10 @@ then
 fi
 
 # Restore stopping at errors
-set +e
+set -e
 
 # Progress report to log on NAS
-log_on_nas="${project_location}/${project}/${dataset}_raw_vcf/logs/${dataset}_genotype_and_assess.log"
+log_on_nas="${project_location}/${project}/${dataset}_vqsr/logs/${dataset}_genotype_vqsr.log"
 
 ssh -x "${data_server}" "echo \"Completed copying results to NAS: $(date +%d%b%Y_%H:%M:%S)\" >> ${log_on_nas}"
 ssh -x "${data_server}" "echo \"\" >> ${log_on_nas}"

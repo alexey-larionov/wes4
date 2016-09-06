@@ -1,15 +1,15 @@
 Job description file for data export
-Alexey Larionov, 25Aug2016
+Alexey Larionov, 06Sep2016
 
 TEMPLATE v1
 
 =========== Data location and analysis settings =============
 
 Data server: admin@mgqnap.medschl.cam.ac.uk
-Project location: /share/alexey
+Project location: /share/eleanor/gastric_Aug16
 
-project: project1
-vep annotated dataset: variantset1_filter1
+project: gastric
+vep annotated dataset: IGP_L1_vqsr_shf_sma_ann
 
 ======================= HPC settings ========================
 
@@ -26,9 +26,9 @@ Max time to request (hrs.min.sec): 05.00.00
 #
 # Exported tables:
 #
-# VCF-VEP annotations
+# VCF_VEP annotations
 # 1k and Exac annotations
-# GT: Genotype
+# GT: Alphabetically coded genotype
 # GT add, dom, rec: Numerically coded genotypes for additive, dominant and recessive models (biallelic only) 
 # DP: Approximate read depth (reads with MQ=255 or with bad mates are filtered)
 # AD: Allelic depths for the ref and alt alleles in the order listed
@@ -52,8 +52,8 @@ Tools
 -----
 
 tools_folder: /scratch/medgen/tools
-java7: java/jre1.7.0_76/bin/java
-gatk: gatk/gatk-3.4-46/GenomeAnalysisTK.jar
+java: java/jre1.8.0_40/bin/java
+gatk: gatk/gatk-3.6-0/GenomeAnalysisTK.jar
 
 r_bin_folder: r/R-3.2.2/bin/
 r_lib_folder: r/R-3.2.2/lib64/R/library
@@ -87,4 +87,4 @@ targets_intervals: nexterarapidcapture_exome_targetedregions_v1.2.b37.intervals
 Additional settings
 -------------------
 
-VEP fields: SYMBOL|Allele|ALLELE_NUM|Consequence|IMPACT|CLIN_SIG|SIFT|PolyPhen|Existing_variation|GMAF|cDNA_position|CDS_position|Codons|Protein_position|Amino_acids|DISTANCE|STRAND|SYMBOL_SOURCE
+VEP fields: SYMBOL|Allele|ALLELE_NUM|Consequence|IMPACT|CLIN_SIG|SIFT|PolyPhen|cDNA_position|CDS_position|Codons|Protein_position|Amino_acids|DISTANCE|STRAND|SYMBOL_SOURCE

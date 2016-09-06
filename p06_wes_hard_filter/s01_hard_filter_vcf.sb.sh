@@ -1,22 +1,22 @@
 #!/bin/bash
 
-# s01_genotype_vqsr.sb.sh
-# Wes library: genotype gvcfs
-# SLURM submission script
-# Alexey Larionov, 01Sep2016
+## s01_hard_filter_vcf.sb.sh
+## Wes library: hard filtering vcf by DP and QUAL
+## SLURM submission script
+## Alexey Larionov, 01Sep2016
 
-#SBATCH -J genotype_vqsr
+#SBATCH -J hard_filter
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --mail-type=ALL
 #SBATCH --no-requeue
 #SBATCH -p sandybridge
 
-##SBATCH --qos=INTR
+#SBATCH --qos=INTR
 ##SBATCH --time=00:30:00
 ##SBATCH -A TISCHKOWITZ-SL3
 
-# Standard modules section (required, do not remove)
+## Modules section (required, do not remove)
 . /etc/profile.d/modules.sh
 module purge
 module load default-impi
@@ -47,6 +47,6 @@ scripts_folder="${2}"
 log="${3}"
 
 ## Do the job
-"${scripts_folder}/s01_genotype_vqsr.sh" \
+"${scripts_folder}/s01_hard_filter_vcf.sh" \
          "${job_file}" \
          "${scripts_folder}" &>> "${log}"

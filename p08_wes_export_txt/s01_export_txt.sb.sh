@@ -3,29 +3,18 @@
 ## s01_export_txt.sb.sh
 ## Wes library: data export
 ## SLURM submission script
-## Alexey Larionov, 25Aug2016
+## Alexey Larionov, 06Sep2016
 
-## Name of the job:
 #SBATCH -J export_data
-
-## How much wallclock time will be required?
-#SBATCH --time=00:30:00
-
-## Which project should be charged:
-#SBATCH -A TISCHKOWITZ-SL3
-
-## What resources should be allocated?
 #SBATCH --nodes=1
 #SBATCH --exclusive
-
-## What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
-
-## Do not resubmit if interrupted by node failure or system downtime
 #SBATCH --no-requeue
-
-## Partition (do not change)
 #SBATCH -p sandybridge
+
+##SBATCH --qos=INTR
+##SBATCH --time=00:30:00
+##SBATCH -A TISCHKOWITZ-SL3
 
 ## Modules section (required, do not remove)
 ## Can be modified to set the environment seen by the application

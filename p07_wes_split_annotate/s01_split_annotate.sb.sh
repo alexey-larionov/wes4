@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# s01_genotype_vqsr.sb.sh
-# Wes library: genotype gvcfs
-# SLURM submission script
-# Alexey Larionov, 01Sep2016
+## s01_split_annotate.sb.sh
+## Wes: split and annotate variants
+## SLURM submission script
+## Alexey Larionov, 06Sep2016
 
-#SBATCH -J genotype_vqsr
+#SBATCH -J split_annotate
 #SBATCH --nodes=1
 #SBATCH --exclusive
 #SBATCH --mail-type=ALL
@@ -16,16 +16,10 @@
 ##SBATCH --time=00:30:00
 ##SBATCH -A TISCHKOWITZ-SL3
 
-# Standard modules section (required, do not remove)
-. /etc/profile.d/modules.sh
-module purge
-module load default-impi
-
-# Additional modules for knitr-rmarkdown (used for histograms)
-module load gcc/5.2.0
-module load boost/1.50.0
-module load texlive/2015
-module load pandoc/1.15.2.1
+## Modules section (required, do not remove)
+. /etc/profile.d/modules.sh  # Enables the module command
+module purge                 # Removes all loaded modules
+module load default-impi     # Loads the basic environment
 
 ## Set initial working folder
 cd "${SLURM_SUBMIT_DIR}"
@@ -46,7 +40,7 @@ job_file="${1}"
 scripts_folder="${2}"
 log="${3}"
 
-## Do the job
-"${scripts_folder}/s01_genotype_vqsr.sh" \
+## Do the job, direct output to the log
+"${scripts_folder}/s01_split_annotate.sh" \
          "${job_file}" \
          "${scripts_folder}" &>> "${log}"

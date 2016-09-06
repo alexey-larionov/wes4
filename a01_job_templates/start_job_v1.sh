@@ -62,9 +62,9 @@ if [ "${line1}" != "Job description file for wes lane alignment and QC" ] && \
    [ "${line1}" != "Job description file for wes library merge pipeline" ] && \
    [ "${line1}" != "Job description file for bams preprocessing and making gvcfs for a wes library" ] && \
    [ "${line1}" != "Job description file for combining gvcfs" ] && \
-   [ "${line1}" != "Job description file for genotyping combined gvcfs" ] && \
-   [ "${line1}" != "Job description file for filtering vcf" ] && \
-   [ "${line1}" != "Job description file for vep annotation" ] && \
+   [ "${line1}" != "Job description file for genotyping gvcfs and VQSR filtering" ] && \
+   [ "${line1}" != "Job description file for hard filtering" ] && \
+   [ "${line1}" != "Job description file to split and annotate VCF" ] && \
    [ "${line1}" != "Job description file for data export" ]
 then
   echo "" 

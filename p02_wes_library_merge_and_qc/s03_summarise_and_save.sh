@@ -2,7 +2,7 @@
 
 # s03_summarise_qc.sh
 # Plot summary metrics for merged wes samples and save results to NAS
-# Alexey Larionov, 22Aug2016
+# Alexey Larionov, 30Aug2016
 
 # Stop at any error
 set -e
@@ -114,62 +114,77 @@ echo ""
 #                 Picard mkdup stats                #
 # ------------------------------------------------- #
 
-# Make picard summary folder
-mkdir -p "${picard_summary_folder}"
+# For full tests set
+if [ "${tests_set}" == "full" ]
+then
 
-# --------------- Make summary table ---------------#
-
-# Make header
-mkdup_summary="${picard_summary_folder}/r01_picard_mkdup_summary.txt"
-header="LIBRARY	UNPAIRED_READS_EXAMINED	READ_PAIRS_EXAMINED	UNMAPPED_READS	UNPAIRED_READ_DUPLICATES	READ_PAIR_DUPLICATES	READ_PAIR_OPTICAL_DUPLICATES	PERCENT_DUPLICATION	ESTIMATED_LIBRARY_SIZE"
-echo -e "SAMPLE\t${header}" > "${mkdup_summary}" 
-
-# Collect data
-for sample in $samples
-do
-  # Stats file name
-  stats_file="${picard_mkdup_folder}/${sample}_mkdup.txt"
+  # Make picard summary folder
+  mkdir -p "${picard_summary_folder}"
   
-  # Get mkdup stats
-  stats=$(awk '/^LIBRARY/ {getline; print}' "${stats_file}")
-
-  # Add stats to the summary table
-  echo -e "${sample}\t${stats}" >> "${mkdup_summary}"
+  # --------------- Make summary table ---------------#
   
-done
+  # Make header
+  mkdup_summary="${picard_summary_folder}/r01_picard_mkdup_summary.txt"
+  header="LIBRARY	UNPAIRED_READS_EXAMINED	READ_PAIRS_EXAMINED	UNMAPPED_READS	UNPAIRED_READ_DUPLICATES	READ_PAIR_DUPLICATES	READ_PAIR_OPTICAL_DUPLICATES	PERCENT_DUPLICATION	ESTIMATED_LIBRARY_SIZE"
+  echo -e "SAMPLE\t${header}" > "${mkdup_summary}" 
+  
+  # Collect data
+  for sample in $samples
+  do
+    # Stats file name
+    stats_file="${picard_mkdup_folder}/${sample}_mkdup.txt"
+    
+    # Get mkdup stats
+    stats=$(awk '/^LIBRARY/ {getline; print}' "${stats_file}")
+  
+    # Add stats to the summary table
+    echo -e "${sample}\t${stats}" >> "${mkdup_summary}"
+    
+  done
+  
+  # ------------------- Make plot ------------------- #
+  
+  # Parameters
+  plot_file="${picard_summary_folder}/r01_picard_duplication_rates.png"
+  title="${project} ${library} merged: Duplication rates"
+  ylabel="Fractoin"
+  
+  # Gnuplot script
+  gpl_script='
+  set terminal png font "'"${LiberationSansRegularTTF}"'" size 800,600 noenhanced
+  set style data histogram
+  set style fill solid border
+  set yrange [0:1] 
+  set xtics rotate out
+  unset key
+  set title "'"${title}"'"
+  set ylabel "'"${ylabel}"'"
+  set output "'"${plot_file}"'"
+  plot "'"${mkdup_summary}"'" using "'"PERCENT_DUPLICATION"'":xtic(1)'
+  
+  # Plotting
+  "${gnuplot}" <<< "${gpl_script}"
+  
+  # Progress report
+  echo "Made summary table and plot for picard mkdup duplication rates"
 
-# ------------------- Make plot ------------------- #
+fi
 
-# Parameters
-plot_file="${picard_summary_folder}/r01_picard_duplication_rates.png"
-title="${project} ${library} merged: Duplication rates"
-ylabel="Fractoin"
+# Omit plotting picard mkdup duplication rates for the limited tests set
+if [ "${tests_set}" == "limited" ]
+then
 
-# Gnuplot script
-gpl_script='
-set terminal png font "'"${LiberationSansRegularTTF}"'" size 800,600 noenhanced
-set style data histogram
-set style fill solid border
-set yrange [0:1] 
-set xtics rotate out
-unset key
-set title "'"${title}"'"
-set ylabel "'"${ylabel}"'"
-set output "'"${plot_file}"'"
-plot "'"${mkdup_summary}"'" using "'"PERCENT_DUPLICATION"'":xtic(1)'
+  # Progress report
+  echo "Omitted plotting picard mkdup duplication rates for the limited tests set"
 
-# Plotting
-"${gnuplot}" <<< "${gpl_script}"
-
-# Progress report
-echo "Made summary table and plot for picard mkdup duplication rates"
+fi
 
 # ------------------------------------------------- #
 #              Picard mkdup histograms              #
 # ------------------------------------------------- #
 
-# For data containing pe
-if [ "${data_type}" == "contains_pe" ]
+# For full tests set
+if [ "${tests_set}" == "full" ]
 then
   
   # --------------- Make summary table ---------------#
@@ -236,14 +251,15 @@ then
   
   # Progress report
   echo "Made summary table and plot for picard mkdup histograms"
+  
 fi
 
-# Omit plotting picard mkdup histograms for SE only data
-if [ "${data_type}" == "se_only" ]
+# Omit plotting picard mkdup histograms for the limited tests set
+if [ "${tests_set}" == "limited" ]
 then
 
   # Progress report
-  echo "Omitted picard mkdup histograms for se-only data"
+  echo "Omitted picard mkdup histograms for the limited tests set"
 
 fi
 
@@ -251,8 +267,8 @@ fi
 #                Picard insert sizes                #
 # ------------------------------------------------- #
 
-# For data containing pe
-if [ "${data_type}" == "contains_pe" ]
+# For full tests set
+if [ "${tests_set}" == "full" ]
 then
 
   # --------------- Make summary table ---------------#
@@ -305,12 +321,12 @@ then
 
 fi
 
-# Omit plotting insert sizes for SE-only data
-if [ "${data_type}" == "se_only" ]
+# Omit plotting insert sizes for the limited tests set
+if [ "${tests_set}" == "limited" ]
 then
 
   # Progress report
-  echo "Omitted plotting insert sizes for se-only data"
+  echo "Omitted plotting insert sizes for the limited tests set"
 
 fi
 
@@ -320,65 +336,74 @@ fi
 
 # --------------- Make summary table ---------------#
 
-# Make header
-picard_as_metrics="${picard_summary_folder}/r04_picard_alignment_metrics.txt"
-header="CATEGORY	TOTAL_READS	PF_READS	PCT_PF_READS	PF_NOISE_READS	PF_READS_ALIGNED	PCT_PF_READS_ALIGNED	PF_ALIGNED_BASES	PF_HQ_ALIGNED_READS	PF_HQ_ALIGNED_BASES	PF_HQ_ALIGNED_Q20_BASES	PF_HQ_MEDIAN_MISMATCHES	PF_MISMATCH_RATE	PF_HQ_ERROR_RATE	PF_INDEL_RATE	MEAN_READ_LENGTH	READS_ALIGNED_IN_PAIRS	PCT_READS_ALIGNED_IN_PAIRS	BAD_CYCLES	STRAND_BALANCE	PCT_CHIMERAS	PCT_ADAPTER	SAMPLE	LIBRARY	READ_GROUP"
-echo -e "SAMPLE\t${header}" > "${picard_as_metrics}" 
-
-# Set data to plot for se-only data
-data_to_plot="UNPAIRED" 
-
-# Set data to plot for pe data
-if [ "${data_type}" == "contains_pe" ]
+# For full tests set
+if [ "${tests_set}" == "full" ]
 then
-    data_to_plot="PAIR"
+
+  # Make header
+  picard_as_metrics="${picard_summary_folder}/r04_picard_alignment_metrics.txt"
+  header="CATEGORY	TOTAL_READS	PF_READS	PCT_PF_READS	PF_NOISE_READS	PF_READS_ALIGNED	PCT_PF_READS_ALIGNED	PF_ALIGNED_BASES	PF_HQ_ALIGNED_READS	PF_HQ_ALIGNED_BASES	PF_HQ_ALIGNED_Q20_BASES	PF_HQ_MEDIAN_MISMATCHES	PF_MISMATCH_RATE	PF_HQ_ERROR_RATE	PF_INDEL_RATE	MEAN_READ_LENGTH	READS_ALIGNED_IN_PAIRS	PCT_READS_ALIGNED_IN_PAIRS	BAD_CYCLES	STRAND_BALANCE	PCT_CHIMERAS	PCT_ADAPTER	SAMPLE	LIBRARY	READ_GROUP"
+  echo -e "SAMPLE\t${header}" > "${picard_as_metrics}" 
+
+  # Select data
+  data_to_plot="PAIR"
+
+  # Collect data
+  for sample in $samples
+  do
+  
+    # Stats file name
+    stats_file="${picard_alignment_folder}/${sample}_as_metrics.txt"
+    
+    # Get stats
+    stats=$(grep "^${data_to_plot}" "${stats_file}")
+  
+    # Add stats to the file
+    echo -e "${sample}\t${stats}" >> "${picard_as_metrics}"
+    
+  done
+
+  # ------------------- Make plot ------------------- #
+  
+  # Parameters
+  plot_file="${picard_summary_folder}/r04_picard_read_counts.png"
+  title="${project} ${library} merged: picard AS-metrics and mkdup"
+  ylabel="Read counts"
+  
+  # gnuplot script
+  gpl_script='
+  set terminal png font "'"${LiberationSansRegularTTF}"'" size 800,600 noenhanced
+  set style data histogram
+  set style histogram clustered
+  set style fill solid border
+  set yrange [0:] 
+  set xtics rotate out
+  set key out horizontal center bottom
+  set title "'"${title}"'"
+  set ylabel "'"${ylabel}"'"
+  set decimal locale
+  set format y "'"%'.0f"'"
+  set output "'"${plot_file}"'"
+  plot "'"${picard_as_metrics}"'" using "'"TOTAL_READS"'":xtic(1) title "'"Total"'", \
+       "'"${picard_as_metrics}"'" using "'"READS_ALIGNED_IN_PAIRS"'":xtic(1) title "'"Aligned in pairs"'", \
+       "'"${mkdup_summary}"'" using "'"READ_PAIR_DUPLICATES"'":xtic(1) title "'"Pairs of duplicates"'"'
+  
+  # Plotting (discard message about setting decimal sign)
+  "${gnuplot}" <<< "${gpl_script}" &>/dev/null
+  
+  # Progress report
+  echo "Made summary table and plot for picard alignment summary"
+
 fi
 
-# Collect data
-for sample in $samples
-do
+# Omit picard alignment summary for the limited tests set
+if [ "${tests_set}" == "limited" ]
+then
 
-  # Stats file name
-  stats_file="${picard_alignment_folder}/${sample}_as_metrics.txt"
-  
-  # Get stats
-  stats=$(grep "^${data_to_plot}" "${stats_file}")
+  # Progress report
+  echo "Omitted plotting picard alignment summary metrics for the limited tests set"
 
-  # Add stats to the file
-  echo -e "${sample}\t${stats}" >> "${picard_as_metrics}"
-  
-done
-
-# ------------------- Make plot ------------------- #
-
-# Parameters
-plot_file="${picard_summary_folder}/r04_picard_read_counts.png"
-title="${project} ${library} merged: picard AS-metrics and mkdup"
-ylabel="Read counts"
-
-# gnuplot script
-gpl_script='
-set terminal png font "'"${LiberationSansRegularTTF}"'" size 800,600 noenhanced
-set style data histogram
-set style histogram clustered
-set style fill solid border
-set yrange [0:] 
-set xtics rotate out
-set key out horizontal center bottom
-set title "'"${title}"'"
-set ylabel "'"${ylabel}"'"
-set decimal locale
-set format y "'"%'.0f"'"
-set output "'"${plot_file}"'"
-plot "'"${picard_as_metrics}"'" using "'"TOTAL_READS"'":xtic(1) title "'"Total"'", \
-     "'"${picard_as_metrics}"'" using "'"READS_ALIGNED_IN_PAIRS"'":xtic(1) title "'"Aligned in pairs"'", \
-     "'"${mkdup_summary}"'" using "'"READ_PAIR_DUPLICATES"'":xtic(1) title "'"Pairs of duplicates"'"'
-
-# Plotting (discard message about setting decimal sign)
-"${gnuplot}" <<< "${gpl_script}" &>/dev/null
-
-# Progress report
-echo "Made summary table and plot for picard alignment summary"
+fi
 
 # ------------------------------------------------- #
 #      Picard hybridisation selection metrics       #

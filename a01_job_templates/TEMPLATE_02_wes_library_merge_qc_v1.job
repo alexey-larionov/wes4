@@ -1,5 +1,5 @@
 Job description file for wes library merge pipeline
-Alexey Larionov, 23Aug2016
+Alexey Larionov, 30Aug2016
 
 TEMPLATE v1
 
@@ -12,8 +12,8 @@ project: gastric
 library: IGP_L1
 lanes: lane1 lane2 lane3 lane4
 
-data_type: contains_pe
-Possible values: contains_pe, se_only
+tests_set: full
+Possible values: full, limited
 
 ======================= HPC settings ========================
 

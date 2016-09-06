@@ -19,7 +19,7 @@ data_server=$(get_parameter "Data server") # e.g. admin@mgqnap.medschl.cam.ac.uk
 project_location=$(get_parameter "Project location") # e.g. /share/alexey
 
 project=$(get_parameter "project") # e.g. priject1
-dataset_name=$(get_parameter "raw variantset name") # e.g. variantset1
+dataset_name=$(get_parameter "dataset") # e.g. variantset1
 filter_name=$(get_parameter "filter name") # e.g. filter1
 
 MIN_DP=$(get_parameter "Min DP") # e.g. 5120.0
@@ -91,7 +91,7 @@ targets_intervals="${targets_folder}/${targets_intervals}"
 
 project_folder="${working_folder}/${project}" # e.g. CCLG
 
-filtered_vcf_folder="${dataset_name}_${filter_name}_vcf" # e.g. set1_filter1_vcf
+filtered_vcf_folder="${dataset_name}_${filter_name}" # e.g. dataset1_filter1
 filtered_vcf_folder="${project_folder}/${filtered_vcf_folder}"
 
 logs_folder=$(get_parameter "logs_folder") # e.g. logs

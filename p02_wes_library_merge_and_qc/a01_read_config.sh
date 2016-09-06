@@ -22,7 +22,7 @@ project=$(get_parameter "project") # e.g. project1
 library=$(get_parameter "library") # e.g. library1
 lanes=$(get_parameter "lanes") # e.g. lane1 lane2 lane3 ...
 
-data_type=$(get_parameter "data_type") # contains_pe / se_only
+tests_set=$(get_parameter "tests_set") # full / limited
 
 # =============== HPC settings ============== #
 

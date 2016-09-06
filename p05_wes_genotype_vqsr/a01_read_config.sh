@@ -110,23 +110,11 @@ targets_intervals="${targets_folder}/${targets_intervals}"
 #targets bed is not used yet in this version of the pipeline: 
 #it could be used later to focus vcfstats on the targets
 
-ph3_1k_folder=$(get_parameter "ph3_1k_folder") # e.g. phase3_1k_release20130502/vcfs
-ph3_1k_folder="${resources_folder}/${ph3_1k_folder}"
-
-ph3_1k_split_vcf=$(get_parameter "ph3_1k_split_vcf") # e.g. ALL.wgs.phase3_shapeit2_mvncall_integrated_v5a.20130502.sites.fixed.split.vcf
-ph3_1k_split_vcf="${ph3_1k_folder}/${ph3_1k_split_vcf}"
-
-exac_folder=$(get_parameter "exac_folder") # e.g. exac
-exac_folder="${resources_folder}/${exac_folder}"
-
-exac_non_tcga_split_vcf=$(get_parameter "exac_non_tcga_split_vcf") # e.g. ExAC_nonTCGA.r0.3.1.sites.vep.filt.split.vcf.gz
-exac_non_tcga_split_vcf="${exac_folder}/${exac_non_tcga_split_vcf}"
-
 # ----------- Working folders ---------- #
  
 project_folder="${working_folder}/${project}" # e.g. project1 
  
-raw_vcf_folder="${project_folder}/${dataset}_raw_vcf"
+raw_vcf_folder="${project_folder}/${dataset}_vqsr"
 
 logs_folder=$(get_parameter "logs_folder") # e.g. logs
 logs_folder="${raw_vcf_folder}/${logs_folder}" 

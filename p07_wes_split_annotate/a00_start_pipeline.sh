@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # a00_start_pipeline.sh
-# Start filtering vcf by DP and QUAL
-# Alexey Larionov, 31Aug2016
+# Start splitting and annotating variants
+# Alexey Larionov, 02Sep2016
 
 ## Read parameter
 job_file="${1}"
@@ -11,12 +11,14 @@ scripts_folder="${2}"
 # Read job's settings
 source "${scripts_folder}/a01_read_config.sh"
 
-# Start lane pipeline log
+# Make working folders and start log
+mkdir -p "${split_annotate_folder}"
+mkdir -p "${tmp_folder}"
 mkdir -p "${logs_folder}"
-log="${logs_folder}/${dataset_name}_${filter_name}.log"
+log="${logs_folder}/${dataset}_${suffix}.log"
 
-echo "WES library: filtering vcf" > "${log}"
-echo "${dataset_name} ${filter_name}" >> "${log}" 
+echo "WES: splitting and annotating variants" > "${log}"
+echo "${set_id}" >> "${log}" 
 echo "Started: $(date +%d%b%Y_%H:%M:%S)" >> "${log}"
 echo "" >> "${log}" 
 
@@ -33,12 +35,12 @@ slurm_time="--time=${time_to_request}"
 slurm_account="--account=${account_to_use}"
 
 sbatch "${slurm_time}" "${slurm_account}" \
-  "${scripts_folder}/s01_hard_filter_vcf.sb.sh" \
+  "${scripts_folder}/s01_split_annotate.sb.sh" \
   "${job_file}" \
   "${scripts_folder}" \
   "${log}"
 
 # Update pipeline log
 echo "" >> "${log}"
-echo "Submitted s01_filter_vcf: $(date +%d%b%Y_%H:%M:%S)" >> "${log}"
+echo "Submitted s01_split_annotate: $(date +%d%b%Y_%H:%M:%S)" >> "${log}"
 echo "" >> "${log}"
