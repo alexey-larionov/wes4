@@ -12,7 +12,7 @@ params:
 
 # Make html report to check exported text files
 # Alexey Larionov
-# 26Aug2016
+# 06Sep2016
 
 # Read command line parameters
 ds <- params$dataset
@@ -55,7 +55,7 @@ Sys.time()
 vv.df <- read.table(vv.file, header = TRUE, sep = "\t", quote = "")
 
 # Add variants IDs to row names
-rownames(vv.df) <- vv.df$RawVarID
+rownames(vv.df) <- vv.df$SplitVarID
 
 # Check annotations
 dim(vv.df)
@@ -79,10 +79,10 @@ alt.ref <- paste(alt, ref, sep="/")
 gt.df.alph <- read.table(gt.file, header = TRUE, sep = "\t", quote = "")
 
 # Check that raw vars IDs are the same in genotypes and annotations
-sum(gt.df.alph$RawVarID != vv.df$RawVarID)
+sum(gt.df.alph$SplitVarID != vv.df$SplitVarID)
 
 # Move variants IDs to row names
-rownames(gt.df.alph) <- gt.df.alph$RawVarID
+rownames(gt.df.alph) <- gt.df.alph$SplitVarID
 gt.df.alph <- gt.df.alph[,-1]
 
 # Check genotypes table

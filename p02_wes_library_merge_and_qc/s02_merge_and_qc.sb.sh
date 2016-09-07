@@ -3,38 +3,23 @@
 ## s02_merge_and_qc.sb.sh
 ## Merge and QC bams for a wes sample
 ## SLURM submission script
-## Alexey Larionov, 20Aug2015
+## Alexey Larionov, 07Sep2015
 
-## Name of the job:
 #SBATCH -J merge_and_qc
-
-## How much wallclock time will be required?
-#SBATCH --time=02:00:00
-
-## Which project should be charged:
-#SBATCH -A TISCHKOWITZ-SL3
-
-## What resources should be allocated?
 #SBATCH --nodes=1
 #SBATCH --exclusive
-
-## What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
-
-## Do not resubmit if interrupted by node failure or system downtime
 #SBATCH --no-requeue
-
-## Partition (do not change)
 #SBATCH -p sandybridge
 
 ##SBATCH --qos=INTR
+##SBATCH --time=02:00:00
+##SBATCH -A TISCHKOWITZ-SL3
 
 ## Modules section (required, do not remove)
-## Can be modified to set the environment seen by the application
-## (note that SLURM reproduces the environment at submission irrespective of ~/.bashrc):
-. /etc/profile.d/modules.sh                # Enables the module command
-module purge                               # Removes all loaded modules
-module load default-impi                   # Loads the basic environment (later may be changed to a MedGen specific one)
+. /etc/profile.d/modules.sh
+module purge
+module load default-impi
 
 ## Set initial working folder
 cd "${SLURM_SUBMIT_DIR}"

@@ -143,7 +143,7 @@ vid_tmp4=$(mktemp --tmpdir="${tmp_folder}" "${dataset}_vid_tmp4".XXXXXX)
 
 # Prepare data witout header
 grep -v "^#" "${split_cln_vcf}" > "${vid_tmp1}"
-awk '{printf("SplitVarID=var%09d\t%s\n", NR, $0)}' "${vid_tmp1}" > "${vid_tmp2}"
+awk '{printf("SplitVarID=Var%09d\t%s\n", NR, $0)}' "${vid_tmp1}" > "${vid_tmp2}"
 awk 'BEGIN {OFS="\t"} ; { $9 = $9";"$1 ; print}' "${vid_tmp2}" > "${vid_tmp3}"
 cut -f2- "${vid_tmp3}" > "${vid_tmp4}"
 
@@ -308,6 +308,7 @@ perl "${vep_script}" \
 
 # Progress report
 echo "Completed writing vep annotations to vcf file: $(date +%d%b%Y_%H:%M:%S)"
+echo ""
 
 # Make md5 file for full vep-annotated vcf (we are in split_annotate_folder)
 md5sum $(basename "${vep_vcf}") > "${vep_md5}"

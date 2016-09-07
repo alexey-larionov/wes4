@@ -3,7 +3,7 @@
 ## s01_export_txt.sb.sh
 ## Wes library: data export
 ## SLURM submission script
-## Alexey Larionov, 06Sep2016
+## Alexey Larionov, 07Sep2016
 
 #SBATCH -J export_data
 #SBATCH --nodes=1
@@ -17,11 +17,9 @@
 ##SBATCH -A TISCHKOWITZ-SL3
 
 ## Modules section (required, do not remove)
-## Can be modified to set the environment seen by the application
-## (note that SLURM reproduces the environment at submission irrespective of ~/.bashrc):
-. /etc/profile.d/modules.sh                # Enables the module command
-module purge                               # Removes all loaded modules
-module load default-impi                   # Loads the basic environment (later may be changed to a MedGen specific one)
+. /etc/profile.d/modules.sh
+module purge
+module load default-impi
 
 # Additional modules for knitr-rmarkdown (used for histograms)
 module load gcc/5.2.0

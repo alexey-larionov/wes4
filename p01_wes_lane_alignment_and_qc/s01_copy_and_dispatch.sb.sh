@@ -4,36 +4,23 @@
 ## Wes lane alignment pipeline
 ## Copy source files and dispatch samples to nodes
 ## SLURM submission script
-## Alexey Larionov, 27Jul2016
+## Alexey Larionov, 06Sep2016
 
-## Name of the job:
 #SBATCH -J copy_and_dispatch
-
-## How much wallclock time will be required?
-#SBATCH --time=00:30:00
-
-## Which project should be charged:
-#SBATCH -A TISCHKOWITZ-SL3
-
-## What resources should be allocated?
 #SBATCH --nodes=1
 #SBATCH --exclusive
-
-## What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
-
-## Do not resubmit if interrupted by node failure or system downtime
 #SBATCH --no-requeue
-
-## Partition (do not change)
 #SBATCH -p sandybridge
 
+##SBATCH --qos=INTR
+##SBATCH --time=00:30:00
+##SBATCH -A TISCHKOWITZ-SL3
+
 ## Modules section (required, do not remove)
-## Can be modified to set the environment seen by the application
-## (note that SLURM reproduces the environment at submission irrespective of ~/.bashrc):
-. /etc/profile.d/modules.sh                # Enables the module command
-module purge                               # Removes all loaded modules
-module load default-impi                   # Loads the basic environment (later may be changed to a MedGen specific one)
+. /etc/profile.d/modules.sh
+module purge
+module load default-impi
 
 ## Set initial working folder
 cd "${SLURM_SUBMIT_DIR}"

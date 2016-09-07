@@ -13,10 +13,10 @@ vep annotated dataset: IGP_L1_vqsr_shf_sma_ann
 
 ======================= HPC settings ========================
 
-working_folder: /scratch/medgen/users/alexey
+working_folder: /scratch/medgen/users/eleanor/Pipeline_working_directory/gastric_Aug16
 
 Account to use on HPC: TISCHKOWITZ-SL2
-Max time to request (hrs.min.sec): 05.00.00
+Max time to request (hrs.min.sec): 01.00.00
 
 ==================== Pipeline summary ======================
 
@@ -87,4 +87,4 @@ targets_intervals: nexterarapidcapture_exome_targetedregions_v1.2.b37.intervals
 Additional settings
 -------------------
 
-VEP fields: SYMBOL|Allele|ALLELE_NUM|Consequence|IMPACT|CLIN_SIG|SIFT|PolyPhen|cDNA_position|CDS_position|Codons|Protein_position|Amino_acids|DISTANCE|STRAND|SYMBOL_SOURCE
+VEP fields: SYMBOL|Allele|Consequence|IMPACT|CLIN_SIG|SIFT|PolyPhen|cDNA_position|CDS_position|Codons|Protein_position|Amino_acids|DISTANCE|STRAND|SYMBOL_SOURCE

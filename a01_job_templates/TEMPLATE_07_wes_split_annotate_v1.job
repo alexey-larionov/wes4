@@ -69,4 +69,4 @@ suffix: sma_ann
 Additional settings
 -------------------
 
-vep_fields: SYMBOL,Allele,ALLELE_NUM,Consequence,IMPACT,CLIN_SIG,SIFT,PolyPhen,cDNA_position,CDS_position,Codons,Protein_position,Amino_acids,DISTANCE,STRAND,SYMBOL_SOURCE
+vep_fields: SYMBOL,Allele,Consequence,IMPACT,CLIN_SIG,SIFT,PolyPhen,cDNA_position,CDS_position,Codons,Protein_position,Amino_acids,DISTANCE,STRAND,SYMBOL_SOURCE

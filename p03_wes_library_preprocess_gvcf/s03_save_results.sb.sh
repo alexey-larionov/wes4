@@ -3,39 +3,23 @@
 ## s03_save_results.sb.sh
 ## Save results to NAS
 ## SLURM submission script
-## Alexey Larionov, 27Aug2016
+## Alexey Larionov, 07Sep2016
 
-## Name of the job:
 #SBATCH -J save_results
-
-## How much wallclock time will be required?
-#SBATCH --time=01:00:00
-
-## Which project should be charged:
-#SBATCH -A TISCHKOWITZ-SL3
-
-## What resources should be allocated?
 #SBATCH --nodes=1
 #SBATCH --exclusive
-
-## What types of email messages do you wish to receive?
 #SBATCH --mail-type=ALL
-
-## Do not resubmit if interrupted by node failure or system downtime
 #SBATCH --no-requeue
-
-## Partition (do not change)
 #SBATCH -p sandybridge
 
-## Jump the queue (use for debugging only!)
 ##SBATCH --qos=INTR
+##SBATCH --time=01:00:00
+##SBATCH -A TISCHKOWITZ-SL3
 
 ## Modules section (required, do not remove)
-## Can be modified to set the environment seen by the application
-## (note that SLURM reproduces the environment at submission irrespective of ~/.bashrc):
-. /etc/profile.d/modules.sh                # Enables the module command
-module purge                               # Removes all loaded modules
-module load default-impi                   # Loads the basic environment (later may be changed to a MedGen specific one)
+. /etc/profile.d/modules.sh
+module purge
+module load default-impi
 
 ## Set initial working folder
 cd "${SLURM_SUBMIT_DIR}"

@@ -3,7 +3,7 @@
 ## s01_split_annotate.sb.sh
 ## Wes: split and annotate variants
 ## SLURM submission script
-## Alexey Larionov, 06Sep2016
+## Alexey Larionov, 07Sep2016
 
 #SBATCH -J split_annotate
 #SBATCH --nodes=1
@@ -17,9 +17,9 @@
 ##SBATCH -A TISCHKOWITZ-SL3
 
 ## Modules section (required, do not remove)
-. /etc/profile.d/modules.sh  # Enables the module command
-module purge                 # Removes all loaded modules
-module load default-impi     # Loads the basic environment
+. /etc/profile.d/modules.sh
+module purge
+module load default-impi
 
 ## Set initial working folder
 cd "${SLURM_SUBMIT_DIR}"

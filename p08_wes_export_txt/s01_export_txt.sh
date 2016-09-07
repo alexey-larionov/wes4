@@ -77,20 +77,20 @@ VV_raw_txt="${tmp_folder}/${dataset}_VV_raw.txt"
 VV_raw_log="${logs_folder}/${dataset}_VV_raw.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
   -V "${source_vcf}" \
-  -F SplitVarID -F LocID -F MultiAllelic -F NDA -F TYPE \
-  -F CHROM -F POS -F REF -F ALT -F QUAL -F DP -F VQSLOD -F FILTER -F AC -F AF -F AN \
+  -F SplitVarID -F LocID -F TYPE -F ID \
+  -F CHROM -F POS -F REF -F ALT -F QUAL -F DP -F AS_VQSLOD -F FILTER -F AC -F AF -F AN \
   -F NEGATIVE_TRAIN_SITE -F POSITIVE_TRAIN_SITE \
   -F ANN \
   -o "${VV_raw_txt}" \
   -AMD &>  "${VV_raw_log}"
 
-# -AMD allow missed data
-# -nda : show number of discovered alt alleles
+# -AMD : allow missed data
+# -nda : number of discovered alt alleles
 
 # Progress report
 echo "Completed exporting raw VCF-VEP table: $(date +%d%b%Y_%H:%M:%S)"
@@ -159,7 +159,7 @@ kgen_txt="${export_folder}/${dataset}_kgen.txt"
 kgen_log="${logs_folder}/${dataset}_kgen.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -190,7 +190,7 @@ exac_txt="${export_folder}/${dataset}_exac.txt"
 exac_log="${logs_folder}/${dataset}_exac.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -264,7 +264,7 @@ GT_txt="${export_folder}/${dataset}_GT.txt"
 GT_log="${logs_folder}/${dataset}_GT.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
@@ -319,12 +319,12 @@ DP_txt="${export_folder}/${dataset}_DP.txt"
 DP_log="${logs_folder}/${dataset}_DP.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
   -V "${source_vcf}" \
-  -F RawVarID -GF DP \
+  -F SplitVarID -GF DP \
   -o "${DP_txt}" \
   -AMD &>  "${DP_log}"  
 
@@ -342,12 +342,12 @@ AD_txt="${export_folder}/${dataset}_AD.txt"
 AD_log="${logs_folder}/${dataset}_AD.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
   -V "${source_vcf}" \
-  -F RawVarID -GF AD \
+  -F SplitVarID -GF AD \
   -o "${AD_txt}" \
   -AMD &>  "${AD_log}"  
 
@@ -365,12 +365,12 @@ GQ_txt="${export_folder}/${dataset}_GQ.txt"
 GQ_log="${logs_folder}/${dataset}_GQ.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
   -V "${source_vcf}" \
-  -F RawVarID -GF GQ \
+  -F SplitVarID -GF GQ \
   -o "${GQ_txt}" \
   -AMD &>  "${GQ_log}"  
 
@@ -388,12 +388,12 @@ PL_txt="${export_folder}/${dataset}_PL.txt"
 PL_log="${logs_folder}/${dataset}_PL.log"
 
 # Export table
-"${java7}" -Xmx60g -jar "${gatk}" \
+"${java}" -Xmx60g -jar "${gatk}" \
   -T VariantsToTable \
   -R "${ref_genome}" \
   -L "${targets_intervals}" -ip 10 \
   -V "${source_vcf}" \
-  -F RawVarID -GF PL \
+  -F SplitVarID -GF PL \
   -o "${PL_txt}" \
   -AMD &>  "${PL_log}"  
 
@@ -411,21 +411,20 @@ check_html="${logs_folder}/${dataset}_check_txt.html"
 check_log="${logs_folder}/${dataset}_check_txt.log"
 
 # Paremeters for Rmarkdown scripts
-data_type="biallelic"
-VV="biallelic/"$(basename "${VV_ba_txt}")
-kgen="biallelic/"$(basename "${kgen_txt}") 
-exac="biallelic/"$(basename "${exac_txt}")
-GT="biallelic/"$(basename "${GT_ba_txt}")
-GT_add="biallelic/"$(basename "${GT_ba_add}")
-GT_dom="biallelic/"$(basename "${GT_ba_dom}")
-GT_rec="biallelic/"$(basename "${GT_ba_rec}")
-DP="biallelic/"$(basename "${DP_ba_txt}")
-AD="biallelic/"$(basename "${AD_ba_txt}")
-GQ="biallelic/"$(basename "${GQ_ba_txt}")
-PL="biallelic/"$(basename "${PL_ba_txt}")
+VV=$(basename "${VV_txt}")
+kgen=$(basename "${kgen_txt}") 
+exac=$(basename "${exac_txt}")
+GT=$(basename "${GT_txt}")
+GT_add=$(basename "${GT_add}")
+GT_dom=$(basename "${GT_dom}")
+GT_rec=$(basename "${GT_rec}")
+DP=$(basename "${DP_txt}")
+AD=$(basename "${AD_txt}")
+GQ=$(basename "${GQ_txt}")
+PL=$(basename "${PL_txt}")
 
 # Prepare script for html report
-r_script_to_check_tables="library('rmarkdown', lib='"${r_lib_folder}/"'); render('"${scripts_folder}"/r02_check_tables_html.Rmd', params=list(dataset='"${dataset}"', working_folder='"${export_folder}"', vv_file='"${VV}"', kgen_file='"${kgen}"', exac_file='"${exac}"', gt_file='"${GT}"', gt_add_file='"${GT_add}"', gt_dom_file='"${GT_dom}"', gt_rec_file='"${GT_rec}"', dp_file='"${DP}"', ad_file='"${AD}"', gq_file='"${GQ}"', pl_file='"${PL}"'), output_file='"${check_html}"')"
+r_script_to_check_tables="library('rmarkdown', lib='"${r_lib_folder}/"'); render('"${scripts_folder}"/r02_check_update_tables_html.Rmd', params=list(dataset='"${dataset}"', working_folder='"${export_folder}"', vv_file='"${VV}"', kgen_file='"${kgen}"', exac_file='"${exac}"', gt_file='"${GT}"', gt_add_file='"${GT_add}"', gt_dom_file='"${GT_dom}"', gt_rec_file='"${GT_rec}"', dp_file='"${DP}"', ad_file='"${AD}"', gq_file='"${GQ}"', pl_file='"${PL}"'), output_file='"${check_html}"')"
 
 # Execute R script for html report
 echo "-------------- Preparing html report -------------- " > "${check_log}"
@@ -446,17 +445,17 @@ echo "Started making md5 sums for exported text tables"
 txt_md5="${dataset}_txt.md5"
  
 md5sum \
-  $(basename "${VV_txt}") \
-  $(basename "${kgen_txt}") \
-  $(basename "${exac_txt}") \
-  $(basename "${GT_txt}") \
-  $(basename "${GT_add}") \
-  $(basename "${GT_dom}") \
-  $(basename "${GT_rec}") \
-  $(basename "${DP_txt}") \
-  $(basename "${AD_txt}") \
-  $(basename "${GQ_txt}") \
-  $(basename "${PL_txt}") \
+  "${VV}" \
+  "${kgen}" \
+  "${exac}" \
+  "${GT}" \
+  "${GT_add}" \
+  "${GT_dom}" \
+  "${GT_rec}" \
+  "${DP}" \
+  "${AD}" \
+  "${GQ}" \
+  "${PL}" \
   > "${txt_md5}"
   
 # Progress report
