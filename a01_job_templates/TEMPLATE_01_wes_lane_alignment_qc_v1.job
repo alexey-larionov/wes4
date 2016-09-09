@@ -23,13 +23,13 @@ Possible values: pe, se
 working_folder: /scratch/medgen/users/user
 
 Account to use for copying source files into HPC: TISCHKOWITZ-SL2
-Max time requested for copying source files (hrs.min.sec): 05.00.00
+Max time requested for copying source files (hrs.min.sec): 01.00.00
 
 Account to use for alignment and QC: TISCHKOWITZ-SL2
-Max time requested for alignment and QC (hrs.min.sec): 18.00.00
+Max time requested for alignment and QC (hrs.min.sec): 05.00.00
 
 Account to use for moving results out of HPC: TISCHKOWITZ-SL2
-Max time requested for moving results out of HPC (hrs.min.sec): 05.00.00
+Max time requested for moving results out of HPC (hrs.min.sec): 02.00.00
 
 ==================== Pipeline summary =======================
 

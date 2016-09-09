@@ -243,10 +243,6 @@ exac_log="${logs_folder}/${dataset}_exac.log"
   -F exac_non_TCGA.Hom_OTH \
   -F exac_non_TCGA.Het_OTH \
   -F exac_non_TCGA.Hemi_OTH \
-  -F exac_non_TCGA.LoF \
-  -F exac_non_TCGA.LoF_filter \
-  -F exac_non_TCGA.LoF_flags \
-  -F exac_non_TCGA.LoF_info \
   -o "${exac_txt}" \
   -AMD &>  "${exac_log}"
 

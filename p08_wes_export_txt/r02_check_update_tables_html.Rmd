@@ -20,7 +20,7 @@ params:
 
 # Make html report to check exported text files
 # Alexey Larionov
-# 07Sep2016
+# 09Sep2016
 
 # Read command line parameters
 ds <- params$dataset
@@ -167,7 +167,7 @@ rm(vv.df)
 ```{r kgen}
 kgen.df <- read.table(kgen.file, header = TRUE, sep = "\t", quote = "")
 dim(kgen.df)
-colnames(kgen.df)
+str(kgen.df)
 kgen.df[1:5,1:5]
 rm(kgen.df)
 ```
@@ -177,8 +177,16 @@ rm(kgen.df)
 ```{r exac}
 exac.df <- read.table(exac.file, header = TRUE, sep = "\t", quote = "")
 dim(exac.df)
-colnames(exac.df)
+str(exac.df)
 exac.df[1:5,1:5]
+
+# Change "." to NAs
+NA -> exac.df$exac_non_TCGA.AC_FEMALE[exac.df$exac_non_TCGA.AC_FEMALE == "."]
+NA -> exac.df$exac_non_TCGA.AC_MALE[exac.df$exac_non_TCGA.AC_MALE == "."]
+
+# Save updated exac table
+write.table(exac.df, exac.file, row.names=FALSE, col.names = TRUE, sep = "\t", quote = FALSE)
+
 rm(exac.df)
 ```
 

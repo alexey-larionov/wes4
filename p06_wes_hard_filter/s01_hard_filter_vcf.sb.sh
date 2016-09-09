@@ -3,7 +3,7 @@
 ## s01_hard_filter_vcf.sb.sh
 ## Wes library: hard filtering vcf by DP and QUAL
 ## SLURM submission script
-## Alexey Larionov, 01Sep2016
+## Alexey Larionov, 08Sep2016
 
 #SBATCH -J hard_filter
 #SBATCH --nodes=1
@@ -12,7 +12,7 @@
 #SBATCH --no-requeue
 #SBATCH -p sandybridge
 
-#SBATCH --qos=INTR
+##SBATCH --qos=INTR
 ##SBATCH --time=00:30:00
 ##SBATCH -A TISCHKOWITZ-SL3
 

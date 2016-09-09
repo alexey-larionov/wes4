@@ -38,3 +38,4 @@ Updates in version of 08.16
 15) Removed TXT outputs and some fields in VEP
 16) Removed "clean" and "full" outputs at some steps (keep only one output)
 17) Added some cleaning to exported VV table
+18) Switched to last version of GATK in most steps
