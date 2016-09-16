@@ -68,10 +68,12 @@ scp -qp "${pipeline_log}" "${data_server}:${project_location}/${project}/${libra
 
 # Remove bulk results from cluster 
 rm -fr "${proc_bam_folder}"
-rm -fr "${gvcf_folder}/*.vcf"
-rm -fr "${gvcf_folder}/*.idx"
-rm -fr "${gvcf_folder}/*.md5"
 rm -fr "${dedup_bam_folder}"
+
+cd "${gvcf_folder}"
+rm -f *.vcf
+rm -f *.idx
+rm -f *.md5
 
 # Update logs on NAS
 ssh -x "${data_server}" "echo \"Removed bulk data from cluster\" >> ${project_location}/${project}/${library}/processed/f00_logs/s03_save_results.log"

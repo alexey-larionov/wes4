@@ -1,5 +1,5 @@
 Job description file for data export
-Alexey Larionov, 06Sep2016
+Alexey Larionov, 10Sep2016
 
 TEMPLATE v1
 
@@ -21,8 +21,6 @@ Max time to request (hrs.min.sec): 01.00.00
 ==================== Pipeline summary ======================
 
 # Export selected tables from vep-vcf to txt files
-# Bi-allelic and multi-allelic variants are exported to separate files
-# Multi-allelic are NOT split to separate lines and are not convetred to numerical codes
 #
 # Exported tables:
 #
@@ -87,4 +85,4 @@ targets_intervals: nexterarapidcapture_exome_targetedregions_v1.2.b37.intervals
 Additional settings
 -------------------
 
-VEP fields: SYMBOL|Allele|Consequence|IMPACT|CLIN_SIG|SIFT|PolyPhen|cDNA_position|CDS_position|Codons|Protein_position|Amino_acids|DISTANCE|STRAND|SYMBOL_SOURCE
+VEP fields: SYMBOL|Allele|Existing_variation|Consequence|IMPACT|CLIN_SIG|SIFT|PolyPhen|cDNA_position|CDS_position|Codons|Protein_position|Amino_acids|DISTANCE|STRAND|SYMBOL_SOURCE

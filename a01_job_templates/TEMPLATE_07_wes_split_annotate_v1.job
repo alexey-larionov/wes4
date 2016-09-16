@@ -16,7 +16,7 @@ dataset: IGP_L1_vqsr_shf
 working_folder: /scratch/medgen/users/eleanor/Pipeline_working_directory/gastric_Aug16
 
 Account to use on HPC: TISCHKOWITZ-SL2
-Max time to request (hrs.min.sec): 05.00.00
+Max time to request (hrs.min.sec): 03.00.00
 
 ==================== Pipeline summary =======================
 
@@ -69,4 +69,4 @@ suffix: sma_ann
 Additional settings
 -------------------
 
-vep_fields: SYMBOL,Allele,Consequence,IMPACT,CLIN_SIG,SIFT,PolyPhen,cDNA_position,CDS_position,Codons,Protein_position,Amino_acids,DISTANCE,STRAND,SYMBOL_SOURCE
+vep_fields: SYMBOL,Allele,Existing_variation,Consequence,IMPACT,CLIN_SIG,SIFT,PolyPhen,cDNA_position,CDS_position,Codons,Protein_position,Amino_acids,DISTANCE,STRAND,SYMBOL_SOURCE

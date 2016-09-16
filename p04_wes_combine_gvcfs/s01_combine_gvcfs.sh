@@ -2,7 +2,7 @@
 
 # s01_combine_gvcfs.sh
 # Combine gvcfs
-# Alexey Larionov, 30Aug2016
+# Alexey Larionov, 14Sep2016
 
 # Stop at any error
 set -e
@@ -201,6 +201,10 @@ ssh -x "${data_server}" "echo \"\" >> ${project_location}/${project}/combined_gv
 ssh -x "${data_server}" "echo \"Completed copying results to NAS: ${timestamp}\" >> ${project_location}/${project}/combined_gvcfs/${set_id}.log"
 ssh -x "${data_server}" "echo \"\" >> ${project_location}/${project}/combined_gvcfs/${set_id}.log"
 
+# Progress report
+echo "Completed copying results to NAS: ${timestamp}"
+echo ""
+
 # ----- Remove bulk results from cluster ----- #
 
 rm -f "${combined_gvcf}"
@@ -212,6 +216,10 @@ rm -f "${combined_gvcf_md5}"
 
 # Progress report to log on nas
 ssh -x "${data_server}" "echo \"Bulk results have been removed from cluster\" >> ${project_location}/${project}/combined_gvcfs/${set_id}.log"
+
+# Progress report
+echo "Bulk results have been removed from cluster"
+echo ""
 
 # --- Return to the initial folder --- #
 

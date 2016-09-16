@@ -2,7 +2,7 @@
 
 # s01_split_annotate.sh
 # Split and annotate variants
-# Alexey Larionov, 06Sep2016
+# Alexey Larionov, 10Sep2016
 
 # Stop at any error
 set -e
@@ -349,8 +349,8 @@ echo ""
 
 # Remove results from cluster
 #rm -fr "${logs_folder}"
+#rm -f "${vep_stats}"
 rm -f "${vep_vcf}"
-rm -f "${vep_stats}"
 rm -f "${vep_md5}"
 
 ssh -x "${data_server}" "echo \"Removed vcfs from cluster\" >> ${log_on_nas}"

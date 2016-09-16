@@ -486,6 +486,10 @@ fi
 # Restore stopping on errors
 set -e
 
+# Progress report
+echo "Completed copying results to NAS: ${timestamp}"
+echo ""
+  
 # Progress report to log on nas
 log_on_nas="${project_location}/${project}/${dataset}_txt/logs/${dataset}_export_txt.log"
 timestamp="$(date +%d%b%Y_%H:%M:%S)"
@@ -494,21 +498,21 @@ ssh -x "${data_server}" "echo \"\" >> ${log_on_nas}"
 
 # Remove results from cluster
 #rm -fr "${logs_folder}"
-rm -f "${VV_txt}"
-rm -f "${kgen_txt}"
-rm -f "${exac_txt}"
-rm -f "${GT_txt}"
-rm -f "${GT_add}"
-rm -f "${GT_dom}"
-rm -f "${GT_rec}"
-rm -f "${DP_txt}"
-rm -f "${AD_txt}"
-rm -f "${GQ_txt}"
-rm -f "${PL_txt}"
-rm -f "${txt_md5}"
+#rm -f "${VV_txt}"
+#rm -f "${kgen_txt}"
+#rm -f "${exac_txt}"
+#rm -f "${GT_txt}"
+#rm -f "${GT_add}"
+#rm -f "${GT_dom}"
+#rm -f "${GT_rec}"
+#rm -f "${DP_txt}"
+#rm -f "${AD_txt}"
+#rm -f "${GQ_txt}"
+#rm -f "${PL_txt}"
+#rm -f "${txt_md5}"
 
-echo $(ssh -x "${data_server}" "echo \"Removed results from cluster\" >> ${log_on_nas}")
-ssh -x "${data_server}" "echo \"\" >> ${log_on_nas}"
+#echo $(ssh -x "${data_server}" "echo \"Removed results from cluster\" >> ${log_on_nas}")
+#ssh -x "${data_server}" "echo \"\" >> ${log_on_nas}"
 
 # Return to the initial folder
 cd "${init_dir}"
