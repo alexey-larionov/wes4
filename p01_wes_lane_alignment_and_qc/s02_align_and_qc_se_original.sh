@@ -2,7 +2,6 @@
 
 # s02_align_and_qc_se.sh
 # Wes sample alignment and QC
-# Modified by mag 03Nov2016 to stop deletion of trimmed fastqs!
 # Alexey Larionov, 01aug2016
 
 # Stop at any errors
@@ -193,7 +192,7 @@ else
 fi
 
 # Remove trimmed fastq
-#rm -f "${trimmed_fastq}"
+rm -f "${trimmed_fastq}"
 
 # Progress report
 echo "Completed alignment: $(date +%d%b%Y_%H:%M:%S)"
