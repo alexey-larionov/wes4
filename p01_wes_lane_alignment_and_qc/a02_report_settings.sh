@@ -2,7 +2,7 @@
 
 # a02_report_settings.sh
 # Report settings for wes lane alignment pipeline
-# Alexey Larionov, 23Aug2016
+# Alexey Larionov, 12Dec2016
 
 pipeline_info=$(grep "^#" "${job_file}")
 pipeline_info=${pipeline_info//"# "/}
@@ -24,6 +24,8 @@ echo "library: ${library}"
 echo "lane: ${lane}"
 echo ""
 echo "data_type: ${data_type}"
+echo "run_qualimap: ${run_qualimap}"
+echo "run_samstat: ${run_samstat}"
 echo ""
 echo "------------------- HPC settings ---------------------"
 echo ""

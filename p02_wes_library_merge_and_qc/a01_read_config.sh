@@ -2,7 +2,7 @@
 
 # a01_read_config.sh
 # Parse congig file for wes library merge pipeline
-# Alexey Larionov, 30Aug2016
+# Alexey Larionov, 14Dec2016
 
 # Function for reading parameters
 function get_parameter()
@@ -23,6 +23,9 @@ library=$(get_parameter "library") # e.g. library1
 lanes=$(get_parameter "lanes") # e.g. lane1 lane2 lane3 ...
 
 tests_set=$(get_parameter "tests_set") # full / limited
+
+run_qualimap=$(get_parameter "run_qualimap") # yes or no
+run_samstat=$(get_parameter "run_samstat") # yes or no
 
 # =============== HPC settings ============== #
 

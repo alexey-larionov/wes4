@@ -2,7 +2,7 @@
 
 # a01_read_config.sh
 # Parse congig file for wes lane alignment pipeline
-# Alexey Larionov, 23Aug2016
+# Alexey Larionov, 12Dec2016
 
 # Function for reading parameters
 function get_parameter()
@@ -26,6 +26,8 @@ library=$(get_parameter "library") # e.g. library1
 lane=$(get_parameter "lane") # e.g. lane1
 
 data_type=$(get_parameter "data_type") # pe or se
+run_qualimap=$(get_parameter "run_qualimap") # yes or no
+run_samstat=$(get_parameter "run_samstat") # yes or no
 
 # =============== HPC settings ============== #
 

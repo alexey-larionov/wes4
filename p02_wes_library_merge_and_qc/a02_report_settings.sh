@@ -2,7 +2,7 @@
 
 # a02_report_settings.sh
 # Report settings for wes library merge pipeline
-# Alexey Larionov, 12Sep2016
+# Alexey Larionov, 14Dec2016
 
 pipeline_info=$(grep "^#" "${job_file}")
 pipeline_info=${pipeline_info//"#"/}
@@ -21,6 +21,8 @@ echo "library: ${library}"
 echo "lanes: ${lanes}"
 echo ""
 echo "tests_set: ${tests_set}"
+echo "run_qualimap: ${run_qualimap}"
+echo "run_samstat: ${run_samstat}"
 echo ""
 echo "------------------- HPC settings ---------------------"
 echo ""

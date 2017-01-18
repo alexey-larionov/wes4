@@ -2,7 +2,7 @@
 
 # s03_summarise_qc.sh
 # Plot summary metrics for merged wes samples and save results to NAS
-# Alexey Larionov, 12Sep2016
+# Alexey Larionov, 14Dec2016
 
 # Stop at any error
 set -e
@@ -544,34 +544,50 @@ echo ""
 
 # ------- Qualimap multi-sample summary ------- #
 
-# Progress report
-echo "Started multi-sample qualimap"
+if [ "${run_qualimap}" == "yes" ] 
+then
 
-# Make folder for qualimap multi-sample results
-qualimap_summary_folder="${qualimap_results_folder}/summary"
-mkdir -p "${qualimap_summary_folder}"
+    # Progress report
+    echo "Started multi-sample qualimap"
+    
+    # Make folder for qualimap multi-sample results
+    qualimap_summary_folder="${qualimap_results_folder}/summary"
+    mkdir -p "${qualimap_summary_folder}"
+    
+    # Make samples list for qualimap multi-sample run
+    samples_list="${qualimap_summary_folder}/samples.list"
+    >"${samples_list}"
+    
+    for sample in ${samples}
+    do
+      echo -e "${sample}\t${qualimap_results_folder}/${sample}" >> "${samples_list}"
+    done
+    
+    # Variable to reset default memory settings for qualimap
+    export JAVA_OPTS="-Xms1G -Xmx60G"
+    
+    # Start qualimap
+    qualimap_log="${qualimap_summary_folder}/summary.log"
+    "${qualimap}" multi-bamqc \
+      --data "${samples_list}" \
+      -outdir "${qualimap_summary_folder}" &> "${qualimap_log}"
+    
+    # Progress report
+    echo "Completed multi-sample qualimap"
+    echo ""
 
-# Make samples list for qualimap multi-sample run
-samples_list="${qualimap_summary_folder}/samples.list"
->"${samples_list}"
-
-for sample in ${samples}
-do
-  echo -e "${sample}\t${qualimap_results_folder}/${sample}" >> "${samples_list}"
-done
-
-# Variable to reset default memory settings for qualimap
-export JAVA_OPTS="-Xms1G -Xmx60G"
-
-# Start qualimap
-qualimap_log="${qualimap_summary_folder}/summary.log"
-"${qualimap}" multi-bamqc \
-  --data "${samples_list}" \
-  -outdir "${qualimap_summary_folder}" &> "${qualimap_log}"
-
-# Progress report
-echo "Completed multi-sample qualimap"
-echo ""
+elif [ "${run_qualimap}" == "no" ] 
+then
+    # Progress report
+    echo "Omitted qualimap summary"
+    echo ""
+else
+    # Error message
+    echo "Wrong qualimap setting: ${run_qualimap}"
+    echo "Should be yes or no"
+    echo "Qualimap summary omitted"
+    echo ""
+fi
 
 # ------- Report progress ------- #
 

@@ -2,7 +2,7 @@
 
 # s02_align_and_qc_pe.sh
 # Wes sample alignment and QC
-# Alexey Larionov, 31Jul2016
+# Alexey Larionov, 12Dec2016
 
 # Stop at any errors
 set -e
@@ -488,49 +488,81 @@ echo ""
 
 # ------- Qualimap ------- #
 
-# Progress report
-echo "Started qualimap"
+if [ "${run_qualimap}" == "yes" ] 
+then
 
-# Folder for sample
-qualimap_sample_folder="${qualimap_results_folder}/${sample}"
-mkdir -p "${qualimap_sample_folder}"
-
-# Variable to reset default memory settings for qualimap
-export JAVA_OPTS="-Xms1G -Xmx60G"
-
-# Start qualimap
-qualimap_log="${qualimap_sample_folder}/${sample}.log"
-"${qualimap}" bamqc \
-  -bam "${mkdup_bam}" \
-  --paint-chromosome-limits \
-  --genome-gc-distr HUMAN \
-  --feature-file "${targets_bed_6}" \
-  --outside-stats \
-  -nt 14 \
-  -outdir "${qualimap_sample_folder}" &> "${qualimap_log}"
-
-# Progress report
-echo "Completed qualimap: $(date +%d%b%Y_%H:%M:%S)"
-echo ""
+    # Progress report
+    echo "Started qualimap"
+    
+    # Folder for sample
+    qualimap_sample_folder="${qualimap_results_folder}/${sample}"
+    mkdir -p "${qualimap_sample_folder}"
+    
+    # Variable to reset default memory settings for qualimap
+    export JAVA_OPTS="-Xms1G -Xmx60G"
+    
+    # Start qualimap
+    qualimap_log="${qualimap_sample_folder}/${sample}.log"
+    "${qualimap}" bamqc \
+      -bam "${mkdup_bam}" \
+      --paint-chromosome-limits \
+      --genome-gc-distr HUMAN \
+      --feature-file "${targets_bed_6}" \
+      --outside-stats \
+      -nt 14 \
+      -outdir "${qualimap_sample_folder}" &> "${qualimap_log}"
+    
+    # Progress report
+    echo "Completed qualimap: $(date +%d%b%Y_%H:%M:%S)"
+    echo ""
+    
+elif [ "${run_qualimap}" == "no" ] 
+then
+    # Progress report
+    echo "Omitted qualimap"
+    echo ""
+else
+    # Error message
+    echo "Wrong qualimap setting: ${run_qualimap}"
+    echo "Should be yes or no"
+    echo "Qualimap omitted"
+    echo ""
+fi
 
 # ------- Samstat ------- #
 
-# Progress report
-echo "Started samstat"
+if [ "${run_samstat}" == "yes" ] 
+then
 
-# Run sumstat
-samstat_log="${samstat_results_folder}/${sample}_samstat.log"
-"${samstat}" "${mkdup_bam}" &> "${samstat_log}"
+    # Progress report
+    echo "Started samstat"
+    
+    # Run sumstat
+    samstat_log="${samstat_results_folder}/${sample}_samstat.log"
+    "${samstat}" "${mkdup_bam}" &> "${samstat_log}"
+    
+    # Move results to the designated folder
+    samstat_source="${mkdup_bam}.samstat.html"
+    samstat_target=$(basename "${mkdup_bam}.samstat.html")
+    samstat_target="${samstat_results_folder}/${samstat_target}"
+    mv -f "${samstat_source}" "${samstat_target}"
+    
+    # Progress report
+    echo "Completed samstat: $(date +%d%b%Y_%H:%M:%S)"
+    echo ""
 
-# Move results to the designated folder
-samstat_source="${mkdup_bam}.samstat.html"
-samstat_target=$(basename "${mkdup_bam}.samstat.html")
-samstat_target="${samstat_results_folder}/${samstat_target}"
-mv -f "${samstat_source}" "${samstat_target}"
-
-# Progress report
-echo "Completed samstat: $(date +%d%b%Y_%H:%M:%S)"
-echo ""
+elif [ "${run_samstat}" == "no" ] 
+then
+    # Progress report
+    echo "Omitted samstat"
+    echo ""
+else
+    # Error message
+    echo "Wrong samstat setting: ${run_samstat}"
+    echo "Should be yes or no"
+    echo "Samstat omitted"
+    echo ""
+fi
 
 # ------------------ Remove mkdupped bams -------------------- #
 
