@@ -85,8 +85,11 @@ then
   echo "" 
   echo "Unexpected format of the job file ${job_file}"
   echo ""
-  echo "Use:"
+  echo "Standard use:"
   echo "start_job.sh job_file"
+  echo ""
+  echo "Use in repeat mode:"
+  echo "start_job.sh job_file repeat sample time"
   echo ""
   echo "Script terminated"
   echo "" 
@@ -94,6 +97,24 @@ then
 fi
 
 # -------- Check input for repeat jobs --------- #
+
+if [ "${job_type}" == "repeat" ]
+then
+  if [ "${line1}" != "Job description file for wes lane alignment and QC" ] && \
+     [ "${line1}" != "Job description file for wes library merge pipeline" ] && \
+     [ "${line1}" != "Job description file for bams preprocessing and making gvcfs for a wes library" ]
+  then
+    echo "" 
+    echo "Repeating one sample is not applicable to this step of the pipeline"
+    echo ""
+    echo "Use:"
+    echo "start_job.sh job_file"
+    echo ""
+    echo "Script terminated"
+    echo "" 
+    exit 1
+  fi
+fi
 
 if [ ! -z "${job_type}" ] && [ "${job_type}" != "repeat" ]
 then
@@ -109,7 +130,7 @@ then
   exit 1
 fi
 
-if [ -z "${sample}" ]
+if [ "${job_type}" == "repeat" ] && [ -z "${sample}" ]
   then
   echo "No sample is given to repeat"
   echo ""
@@ -123,7 +144,7 @@ if [ -z "${sample}" ]
   exit 1
 fi
 
-if [ -z "${run_time}" ]
+if [ "${job_type}" == "repeat" ] && [ -z "${run_time}" ]
   then
   echo "No time is given to repeat run"
   echo ""
@@ -138,7 +159,7 @@ if [ -z "${run_time}" ]
 fi
 
 check_time=$(grep '^[0-2][0-9]:[0-2][0-9]$' <<< "${run_time}")
-if [ -z "${check_time}" ]
+if [ "${job_type}" == "repeat" ] && [ -z "${check_time}" ]
   then
   echo "Wrong time format"
   echo "Should be hh:mm"
@@ -153,7 +174,7 @@ if [ -z "${check_time}" ]
   exit 1
 fi
 
-if [ ! -z "${etc}" ]
+if [ "${job_type}" == "repeat" ] && [ ! -z "${etc}" ]
   then
   echo "Unexpected parameter(s) in the command line"
   echo ""
