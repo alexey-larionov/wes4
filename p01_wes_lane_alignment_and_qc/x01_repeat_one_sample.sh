@@ -3,7 +3,7 @@
 # s01_repeat_one_sample.sh
 # Start alignment of one sample failed in the previous batch
 # Assuming the source files have been copied and the folders structure etc created
-# Alexey Larionov, 18Jan2017
+# Alexey Larionov, 23Jan2017
 
 # Stop at any errors
 set -e
@@ -88,12 +88,16 @@ then
   echo ""
   echo "Sample has been detected in the completed samples list:"
   echo "${bam_samples_file}"
-  echo "Remove sample from the list and try again"
+  echo "Remove sample from the list of completed samples and try again"
   echo ""
   echo "Script terminated"
   echo ""
   exit 1
 fi
+
+# Prepare parameters for slurm submission
+run_time="--time=${run_time}"
+slurm_account="--account=${account_alignment_qc}"
 
 # Submit job to cluster
 sbatch "${run_time}" "${slurm_account}" \

@@ -3,12 +3,12 @@
 # start_job.sh
 # Start job described in the job file
 # Started: Alexey Larionov, 2015
-# Last updated: Alexey Larionov, 18Jan2017
+# Last updated: Alexey Larionov, 24Jan2017
 # Version: 12
 
 # Use: 
 # start_job.sh job_file
-# start_job.sh job_file repeat sample
+# start_job.sh job_file repeat sample time
 
 # Get job file
 job_description="${1}"
@@ -158,7 +158,7 @@ if [ "${job_type}" == "repeat" ] && [ -z "${run_time}" ]
   exit 1
 fi
 
-check_time=$(grep '^[0-2][0-9]:[0-2][0-9]$' <<< "${run_time}")
+check_time=$(grep '^[0-2][0-9]:[0-6][0-9]:[0-6][0-9]$' <<< "${run_time}")
 if [ "${job_type}" == "repeat" ] && [ -z "${check_time}" ]
   then
   echo "Wrong time format"
@@ -224,9 +224,8 @@ then
   
   # Start the job
   echo ""
-  "${scripts_folder}/${start_script} ${job_file} ${scripts_folder} ${sample} ${run_time}" 
+  "${scripts_folder}/${start_script}" "${job_file}" "${scripts_folder}" "${sample}" "${run_time}" 
   echo ""
-fi
 
 # A standard batch run
 else
@@ -255,7 +254,7 @@ else
   
   # Start the job
   echo ""
-  "${scripts_folder}/${start_script} ${job_file} ${scripts_folder}" 
+  "${scripts_folder}/${start_script}" "${job_file}" "${scripts_folder}" 
   echo ""
 
 fi
