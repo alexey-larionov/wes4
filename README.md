@@ -1,9 +1,11 @@
-This is a pipeline to process whole exome sequencing data from fastq to annotated vcf. 
-The pipeline is deployed on a local university cluster.  
+This pipeline was used for multiple WES progects in 2015-2017.  
+The pipeline was deployed on a local university cluster.  
+It processes WES data from fastq to annotated vcf. 
+
 This repository is intended for the author's pesonal use. 
 Version 08.16
 
-The main steps include:
+The main steps of the pipeline include:
 - Source FASTQ import, trimming withCutadapt and assessing with FastQC, 
 - Alignment against b37 using BWA MEM or backtrack,
 - BAM files cleaning, merging, deduplication, preprocessing and QC (samtools, picard, GATK, Qualimap etc)
