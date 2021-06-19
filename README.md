@@ -1,5 +1,5 @@
 This pipeline was used for multiple WES progects in 2015-2017.  
-The pipeline was deployed on a local university cluster.  
+The pipeline was deployed on the Cambridge university cluster.  
 It processes WES data from fastq to annotated vcf. 
 
 This repository is intended for the author's pesonal use. 
